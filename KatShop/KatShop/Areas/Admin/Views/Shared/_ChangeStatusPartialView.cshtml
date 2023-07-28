@@ -1,0 +1,201 @@
+﻿@model KatShop.Models.Order
+
+
+
+<!--Change status--></>
+<div id="ChangeStatus-@Model.OrderId" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">THÔNG TIN ĐƠN HÀNG #@Model.OrderId</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7 col-md-10 col-sm-11">
+
+                            <div class="horizontal-steps mt-4 mb-4 pb-5" id="tooltip-container">
+                                @if(Model.TransactStatusId == 1){
+                                    <div class="horizontal-steps-content">
+                                    <div class="step-item current">
+                                        <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.OrderDate">Chờ xác nhận</span>
+                                    </div>
+                                    <div class="step-item">
+                                        <span> Đang chuẩn bị hàng</span>
+                                    </div>
+                                    <div class="step-item">
+                                        <span>Đang giao hàng</span>
+                                    </div>
+                                    <div class="step-item">
+                                        <span>Đã giao hàng</span>
+                                    </div>
+                                </div>
+                                    <div class="process-line" style="width: 0%;"></div>
+                                }else if(Model.TransactStatusId == 2)
+                                {
+                                    <div class="horizontal-steps-content">
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.OrderDate">Chờ xác nhận</span>
+                                        </div>
+                                        <div class="step-item current">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.ShipDate"> Đang chuẩn bị hàng</span>
+                                        </div>
+                                        <div class="step-item">
+                                            <span>Đang giao hàng</span>
+                                        </div>
+                                        <div class="step-item" >
+                                            <span>Đã giao hàng</span>
+                                        </div>
+                                    </div>
+                                    <div class="process-line" style="width: 33%;"></div>
+                                }
+                                else if (Model.TransactStatusId == 3)
+                                {
+                                    <div class="horizontal-steps-content">
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.OrderDate">Chờ xác nhận</span>
+                                        </div>
+                                        <div class="step-item">
+                                            <span > Đang chuẩn bị hàng</span>
+                                        </div>
+                                        <div class="step-item current">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.ShipDate">Đang giao hàng</span>
+                                        </div>
+                                        <div class="step-item">
+                                            <span>Đã giao hàng</span>
+                                        </div>
+                                    </div>
+                                    <div class="process-line" style="width: 66%;"></div>
+                                }
+                                else if (Model.TransactStatusId == 4)
+                                {
+                                    <div class="horizontal-steps-content">
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.OrderDate">Chờ xác nhận</span>
+                                        </div>
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""> Đang chuẩn bị hàng</span>
+                                        </div>
+                                        <div class="step-item">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">Đang giao hàng</span>
+                                        </div>
+                                        <div class="step-item current">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.PaymentDate">Đã giao hàng</span>
+                                        </div>
+                                    </div>
+                                    <div class="process-line" style="width: 99%;"></div>
+                                }
+                                else if (Model.TransactStatusId == 5)
+                                {
+                                    <div class="horizontal-steps-content">
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.OrderDate">Chờ xác nhận</span>
+                                        </div>
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""> Đang chuẩn bị hàng</span>
+                                        </div>
+                                        <div class="step-item">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">Đang giao hàng</span>
+                                        </div>
+                                        <div class="step-item current" style="color:#cf344b;">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.ShipDate">Đã hủy đơn</span>
+                                        </div>
+                                    </div>
+                                    <div class="process-line" style="width: 99%;"></div>
+                                }
+                                else if (Model.TransactStatusId == 6)
+                                {
+                                    <div class="horizontal-steps-content">
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.OrderDate">Chờ xác nhận</span>
+                                        </div>
+                                        <div class="step-item ">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""> Đang chuẩn bị hàng</span>
+                                        </div>
+                                        <div class="step-item">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">Đang giao hàng</span>
+                                        </div>
+                                        <div class="step-item current " style="color:#e0dd26;">
+                                            <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Model.ShipDate">Đơn hoàn trả</span>
+                                        </div>
+                                    </div>
+                                    <div class="process-line" style="width: 99%;"></div>
+                                }
+                               
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                          <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mb-3">Thông tin người nhận</h4>
+                                         <h5>Người nhận : @Model.Customer.FullName</h5>                     
+                                        <address class="mb-0 font-14 address-lg">
+                                         Địa chỉ :    @Model.Customer.Address, @Model.Customer.CodeProvince<br />
+                                        <abbr>SĐT :</abbr> @Model.Customer.Phone<br>
+                                        <abbr>Ngày đặt hàng :</abbr> @Model.OrderDate.Value.ToShortDateString() <small>@Model.OrderDate.Value.ToShortTimeString()</small>
+                                        </address>
+            
+                                    </div>
+                                </div>
+                            </div> <!-- end col -->
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="header-title mb-3">Thông tin thanh toán</h4>
+
+                                
+                                        <i class="mdi mdi-truck-fast h2 text-muted"></i>
+                                       
+                                        <p class="mb-1"><b>Tổng tiền :</b> @Model.TotalMoney.Value.ToString("#,##0") VNĐ</p>
+                                        <p class="mb-0"><b>Phương thức thanh toán :</b> COD</p>
+                                
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                </div>                        
+                <div class="card">
+                    <div class="card-body">
+                        <form asp-area="Admin" asp-controller="Order" asp-action="ChangeStatus" asp-route-id="@Model.OrderId" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="OrderId" />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Chọn trạng thái đơn hàng</label>
+                                        <select class="form-control" asp-for="TransactStatusId" asp-items="@ViewBag.TrangThai" required>
+                                            <option value="0" disabled selected>Chọn trạng thái đơn hàng</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @* <div class="form-group">
+                                <label>Đã thanh toán</label>
+                                <input asp-for="Paid" type="checkbox" />
+                                <span asp-validation-for="Paid" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                <label>Đơn hàng bị hủy</label>
+                                <input asp-for="Deleted" type="checkbox" />
+                                <span asp-validation-for="Deleted" class="text-danger"></span>
+                                </div>*@
+
+                            </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                </div>
+                          
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+         
+        </div>
+    </div>
+</div>
+</div>

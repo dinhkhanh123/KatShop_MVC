@@ -1,0 +1,125 @@
+﻿@model KatShop.Models.Post
+
+@{
+    ViewData["Title"] = "Chỉnh sửa bài đăng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"] : @Model.Title</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<hr />
+		<div class="row">
+			<div class="col-md-12">
+				<form asp-controller="Post" asp-action="Edit" asp-route-id="@Model.PostId" method="post" enctype="multipart/form-data">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<input type="hidden" asp-for="PostId" />
+					<input type="hidden" asp-for="Thumb" />
+					<input type="hidden" asp-for="CreateDate"/>
+					<div class="mb-3 col-md-6">
+						<label asp-for="Title" class="form-label">Tên bài :</label>
+						<input type="text" id="simpleinput" class="form-control" asp-for="Title">
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Scontents" class="form-label">Mô tả ngắn:</label>
+						<textarea class=" form-control" asp-for="Scontents"></textarea>
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Contents" class="form-label">Nội dung :</label>
+						<textarea class="summernote form-control" asp-for="Contents"></textarea>
+					</div>
+					<div class="mb-3 col-md-6">
+						<label asp-for="Thumb" class="form-label">Ảnh đại diện:</label>
+						<input type="file" name="fThumb" class="form-control" asp-for="Thumb">
+						<span asp-validation-for="Thumb" class="text-danger"></span>
+					</div>
+					
+
+					<div class="mb-3 col-md-6">
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" asp-for="Published">
+							<label class="form-check-label" asp-for="Published">Trạng thái</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" asp-for="IsHot">
+							<label class="form-check-label" asp-for="IsHot">Tin Hot</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" asp-for="IsNewfeed">
+							<label class="form-check-label" asp-for="IsNewfeed">Tin mới</label>
+						</div>
+					</div>
+
+					
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Author" class="form-label">Tác giả :</label>
+						<input type="text" class="form-control" asp-for="Author">
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Tags" class="form-label">Tags :</label>
+						<input type="text" class="form-control" asp-for="Tags">
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="MetaDesc" class="form-label">MetaDesc :</label>
+						<input type="text" class="form-control" asp-for="MetaDesc">
+					</div>
+					<div class="mb-3 col-md-6">
+						<label asp-for="MetaKey" class="form-label">MetaKey :</label>
+						<input type="text" class="form-control" asp-for="MetaKey">
+					</div>
+
+				
+
+					<div class="form-group">
+						<input type="submit" value="Lưu" class="btn btn-primary" />
+						<a class="btn btn-dark" asp-action="Index">Quay lại</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts{
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
+	<link href="~/summernote/summernote-lite.css" rel="stylesheet" />
+	<link href="~/summernote/summernote-lite.min.css" rel="stylesheet" />
+	<script src="~/summernote/summernote-lite.js"></script>
+	<script src="~/summernote/summernote-lite.min.js"></script>
+	@*<a href="~/summernote/summernote-lite.js.map">~/summernote/summernote-lite.js.map</a>
+	<a href="~/summernote/summernote-lite.min.js.map">~/summernote/summernote-lite.min.js.map</a>*@
+	<script>
+		jQuery(document).ready(function () {
+			$('.summernote').summernote({
+				fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+				styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5'],
+				height: 200,
+				minHeight: null,
+				maxHeight: null,
+				focus: true
+			});
+		});
+	</script>
+}

@@ -1,0 +1,333 @@
+﻿@model List<KatShop.ModelViews.CartItem>
+@{
+	ViewData["Title"] = "Xem giỏ hàng";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var returnUrl = Context.Request.Query["ReturnUrl"];
+}
+<div class="container single_product_container">
+	<div class="col-12">
+		<!-- Breadcrumbs -->
+		<div class="breadcrumbs d-flex flex-row align-items-center">
+			<ul>
+				<li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+				<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h4 class="text-uppercase " style="border-bottom: 1px solid #DDD;margin-bottom: 30px ;color: #333;">
+					<span>Giỏ hàng</span>
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-8">
+								<div class="table-responsive">
+									@if (Model != null && Model.Count() > 0)
+									{
+										<form action="javascript:void(0)">
+											<table class="table table-borderless table-centered mb-0">
+												<thead class="table-light">
+													<tr>
+														<th></th>
+														<th>Tên sản phẩm</th>
+														<th>Giá </th>
+														<th>Số lượng</th>
+														<th>Tổng</th>
+														<th style="width: 50px;"></th>
+													</tr>
+												</thead>
+												<tbody>
+													@if (Model != null && Model.Count() > 0)
+													{
+														foreach (var item in Model)
+														{
+															<tr>
+																<td><img src="~/images/products/@item.product.Thumb" alt="@item.product.Title" title="contact-img" class="rounded me-3" height="64"></td>
+																<td>
+																	<p class="m-0 d-inline-block align-middle font-16">
+																		<a href="javascript:void(0)" class="text-body">@item.product.ProductName</a>
+																	</p>
+																</td>
+																@if (item.product.Discount != null)
+																{
+																	item.product.Price = item.product.Discount;
+																}
+																<td>@item.product.Price.Value.ToString("#,##0") VNĐ</td>
+																<td>
+																	<input data-mahh="@item.product.ProductId" data-dongia="@item.product.Price" class="cartItem cart-plus-minus-box form-control" value="@item.amount" min="1" type="number" max="10" value="@item.amount" placeholder="Qty" style="width: 90px;">
+																</td>
+																<td>@item.TotalMoney.ToString("#,##0") VNĐ</td>
+																<td>
+
+																	<a href="javascript:void(0);" class="removecart btn btn-danger" data-mahh="@item.product.ProductId"> <i class="fa fa-trash-o" aria-hidden="true"></i></a>
+																</td>
+															</tr>
+														}
+													}
+												</tbody>
+											</table>
+										</form>
+									}
+									else
+									{
+										<table class="table table-borderless table-centered mb-0">
+											<thead class="table-light">
+												<tr>
+													<th></th>
+													<th>Tên sản phẩm</th>
+
+													<th>Giá </th>
+													<th>Số lượng</th>
+													<th>Tổng</th>
+													<th style="width: 50px;"></th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									}
+
+								</div> <!-- end table-responsive-->
+								<!-- Add note input-->
+								<!-- action buttons-->
+								<div class="row mt-5">
+
+									<div class="col-sm-12 d-flex justify-content-center">
+										<div class="text-sm-end">
+											@if (Model != null && Model.Count() > 0)
+											{
+												@if (User.Identity.IsAuthenticated)
+												{
+													<a href="/checkout.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+												}
+												else
+												{
+													<a href="/dang-nhap.html?returnUrl=/checkout.html" class="btn btn-secondary btn-primary-hover">Thanh toán</a>
+												}
+											}
+										</div>
+									</div> <!-- end col -->
+								</div> <!-- end row-->
+							</div>
+							<!-- end col -->
+
+							<div class="col-lg-4">
+								<div class="border p-3 mt-4 mt-lg-0 rounded">
+									<h4 class="header-title mb-3">Thành tiền</h4>
+
+									<div class="table-responsive">
+										<table class="table mb-0">
+											<tbody>
+												<tr>
+													<td>Tổng :</td>
+													<td>@Model.Sum(x => x.TotalMoney).ToString("#,##0") đ</td>
+												</tr>
+												<tr>
+													<td>Mã giảm giá : </td>
+													<td>- <span id="percent">0%</span></td>
+												</tr>
+												<tr>
+													<td>Phí vận chuyển:</td>
+													<td>0 đ</td>
+												</tr>
+
+												<tr>
+													
+													<th>Tổng tất cả:</th>
+
+													<th><span id="totalall">@Model.Sum(x => x.TotalMoney).ToString("#,##0") đ</span></th>
+												
+													
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<!-- end table-responsive -->
+								</div>
+
+								@*<div class="alert alert-warning mt-3" role="alert">
+								Use coupon code <strong>HYPBM</strong> and get 10% discount !
+								</div>*@
+
+								<div >
+									<form class="input-group mt-3" id="discountForm" action="api/discount/check" method="post">
+										<input type="text" id="discountCode" name="discountCode" class="form-control form-control-light" placeholder="Mã giảm giá">
+										<button id="applyButton" class="newsletter_submit_btn trans_200" type="submit">Áp dụng</button>
+									</form>
+								</div>
+
+							</div> <!-- end col -->
+
+						</div> <!-- end row -->
+					</div> <!-- end card-body-->
+				</div> <!-- end card-->
+			</div> <!-- end col -->
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts{
+	<script>
+		$(function () {
+			function loadHeaderCart() {
+				$('#miniCart').load("/AjaxContent/HeaderCart");
+				$('#numberCart').load("/AjaxContent/NumberCart");
+			}
+			$(".removecart").click(function () {
+				var productid = $(this).attr("data-mahh");
+				$.ajax({
+					url: "api/cart/remove",
+					type: "POST",
+					dataType: "JSON",
+					data: { productID: productid },
+					success: function (result) {
+						if (result.success) {
+							loadHeaderCart();//Reload lai gio hang
+							location.reload();
+						}
+					},
+					error: function (rs) {
+						alert("Remove Cart Error !")
+					}
+				});
+			});
+			$(".cartItem").click(function () {
+				var productid = $(this).attr("data-mahh");
+				var soluong = parseInt($(this).val());
+				$.ajax({
+					url: "api/cart/update",
+					type: "POST",
+					dataType: "JSON",
+					data: {
+						productID: productid,
+						amount: soluong
+					},
+					success: function (result) {
+						if (result.success) {
+							loadHeaderCart();//Reload lai gio hang
+							window.location = 'cart.html';
+						}
+					},
+					error: function (rs) {
+						alert("Cập nhật Cart Error !")
+					}
+				});
+			});
+		});
+
+
+
+		$(document).ready(function () {
+			$('#discountForm').on('submit', function (e) {
+				e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+				var discountCode = $('#discountCode').val();
+
+				// Gửi yêu cầu AJAX để kiểm tra mã giảm giá
+				$.ajax({
+					url: $(this).attr('action'), // Lấy đường dẫn từ thuộc tính action của form
+					type: $(this).attr('method'), // Lấy phương thức từ thuộc tính method của form
+					data: {
+						discountCode: discountCode
+					},
+					success: function (response) {
+						// Xử lý phản hồi thành công
+						if (response.isValid) {
+							// Mã giảm giá hợp lệ, thực hiện các hành động tiếp theo
+							alert('Áp mã giảm giá thành công');
+							var discountedPrice = response.discountedPrice;
+
+							// Tính toán tổng giá trị giảm giá
+							var totalDiscount = (discountedPrice / 100) * @Model.Sum(x => x.TotalMoney);
+							var totalAll = @Model.Sum(x => x.TotalMoney) - totalDiscount;
+
+							// Cập nhật giá trị trong bảng
+							$('#discountAmount').text(totalDiscount.toLocaleString() + ' đ');
+							$('#totalall').text(totalAll.toLocaleString() + ' đ');
+							$('#percent').text(discountedPrice + '%');
+
+							// Lưu giá trị totalAll vào session
+							$.ajax({
+								url: '/ShoppingCart/SaveTotalAll',
+								type: 'POST',
+								data: { discountedPrice: discountedPrice },
+								success: function (response) {
+									// Xử lý phản hồi thành công (nếu cần)
+									// Sau khi lưu thành công, chuyển hướng đến trang Checkout
+									//window.location.href = '/ShoppingCart/Index';
+								},
+								error: function (xhr, status, error) {
+									// Xử lý phản hồi lỗi (nếu cần)
+								}
+							});
+						} else {
+							// Mã giảm giá không hợp lệ, hiển thị thông báo lỗi
+							alert('Mã giảm giá không hợp lệ hoặc hết thời gian sử dụng');
+							// Hiển thị thông báo lỗi cho người dùng
+						}
+					},
+					error: function (xhr, status, error) {
+						// Xử lý phản hồi lỗi
+						console.log(error);
+					}
+				});
+			});
+		});
+
+
+
+
+
+
+
+		//$(document).ready(function () {
+		//	$('#discountForm').on('submit', function (e) {
+		//		e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+		//		var discountCode = $('#discountCode').val();
+
+		//		// Gửi yêu cầu AJAX để kiểm tra mã giảm giá
+		//		$.ajax({
+		//			url: $(this).attr('action'), // Lấy đường dẫn từ thuộc tính action của form
+		//			type: $(this).attr('method'), // Lấy phương thức từ thuộc tính method của form
+		//			data: $(this).serialize(), // Gửi dữ liệu của form
+		//			success: function (response) {
+		//				// Xử lý phản hồi thành công
+		//				if (response.isValid) {
+		//					// Mã giảm giá hợp lệ, thực hiện các hành động tiếp theo
+		//					console.log('Mã giảm giá hợp lệ');
+		//					console.log('Giá đã giảm: ' + response.discountedPrice);
+		//					// Thực hiện các hành động khác ở đây
+		//				} else {
+		//					// Mã giảm giá không hợp lệ, hiển thị thông báo lỗi
+		//					console.log('Mã giảm giá không hợp lệ');
+		//					// Hiển thị thông báo lỗi cho người dùng
+		//				}
+		//			},
+		//			error: function (xhr, status, error) {
+		//				// Xử lý phản hồi lỗi
+		//				console.log(error);
+		//			}
+		//		});
+		//	});
+		//});
+
+
+	</script>
+}

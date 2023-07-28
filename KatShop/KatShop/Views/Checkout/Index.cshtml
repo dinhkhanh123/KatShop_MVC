@@ -1,0 +1,419 @@
+﻿@using Microsoft.AspNetCore.Http
+@model KatShop.ModelViews.MuaHangVM
+
+@{
+	ViewData["Title"] = "Mua hàng";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<KatShop.ModelViews.CartItem> Carts = ViewBag.GioHang;
+
+}
+
+
+<div class="container single_product_container">
+	<div class="col-12">
+		<!-- Breadcrumbs -->
+		<div class="breadcrumbs d-flex flex-row align-items-center">
+			<ul>
+				<li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+				<li class="active"><a href="~/assets/#"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h4 class="text-uppercase " style="border-bottom: 1px solid #DDD;margin-bottom: 30px ;color: #333;">
+					<span>Thông tin thanh toán</span>
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-7">
+				<form asp-controller="Checkout" asp-action="Index" method="post">
+					<div class="row">
+						<div class="col-12">
+							<label asp-for="FullName" class="form-label">Họ và tên :</label>
+							<input class="form-control" type="text" asp-for="FullName" value="@Model.FullName" placeholder="Nhập họ và tên" id="new-adr-first-name" required>
+						</div>
+
+					</div> <!-- end row -->
+					<div class="row mt-3">
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label asp-for="Email" class="form-label">Địa chỉ email : <span class="text-danger">*</span></label>
+								<input class="form-control" type="email" asp-for="Email" value="@Model.Email" placeholder="Nhập địa chỉ email" id="new-adr-email-address" required>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="mb-3">
+								<label asp-for="Phone" class="form-label">Điện thoại : <span class="text-danger">*</span></label>
+								<input class="form-control" asp-for="Phone" type="text" value="@Model.Phone" placeholder="xxx xxxx xxx" id="new-adr-phone" required>
+							</div>
+						</div>
+					</div> <!-- end row -->
+					<div class="row">
+						<div class="col-12">
+							<div class="mb-3">
+								<label asp-for="Address" for="new-adr-address" class="form-label">Địa chỉ giao hàng:</label>
+								<input class="form-control" asp-for="Address" value="@Model.Address" type="text" placeholder="Nhập địa chỉ giao hàng" id="new-adr-address" required>
+							</div>
+						</div>
+					</div> <!-- end row -->
+
+
+					<div class="row" id="location">
+						@if (Model.TinhThanh != null && Model.QuanHuyen != null && Model.PhuongXa != null)
+						{
+							<div class="col-4">
+								<div class="mb-3">
+									<label asp-for="TinhThanh" for="new-adr-address" class="form-label">Tỉnh / Thành:</label>
+									<input class="form-control" asp-for="TinhThanh" value="@Model.TinhThanh" type="text" id="new-adr-address" readonly>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="mb-3">
+									<label asp-for="QuanHuyen" for="new-adr-address" class="form-label">Quận / Huyện:</label>
+									<input class="form-control" asp-for="QuanHuyen" value="@Model.QuanHuyen" type="text" id="new-adr-address" readonly>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="mb-3">
+									<label asp-for="PhuongXa" for="new-adr-address" class="form-label">Phường / Xã:</label>
+									<input class="form-control" asp-for="PhuongXa" value="@Model.PhuongXa" type="text" id="new-adr-address" readonly>
+								</div>
+							</div>
+						}
+						else
+						{
+							<div class="col-4">
+								<div class="mb-3">
+									<label class="form-label">Tỉnh/Thành<span class="text-danger">*</span></label><br />
+									<select id="TinhThanh" asp-for="TinhThanh" class="myniceselect nice-select wide" data-toggle="select2" title="TinhThanh" readonly>
+										<option value="0" disabled selected>Tỉnh/Thành</option>
+										@foreach (var item in ViewBag.lsTinhThanh)
+										{
+											<option value="@item.Value">@item.Text</option>
+										}
+									</select>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="mb-3">
+									<label class="form-label">Quận/Huyện<span class="text-danger">*</span></label>
+									<select id="QuanHuyen" asp-for="QuanHuyen" class="myniceselect wide" data-toggle="select2" title="QuanHuyen" readonly>
+										<option value="0" disabled selected>Quận/Huyện</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-4">
+								<div class="mb-3">
+									<label class="form-label">Phường/Xã<span class="text-danger">*</span></label> <br />
+									<select id="PhuongXa" asp-for="PhuongXa" class="myniceselect wide" data-toggle="select2" title="PhuongXa" required>
+										<option value="0" disabled selected>Phường/Xã</option>
+									</select>
+								</div>
+							</div>
+						}
+						<a id="changeAddressLink" href="chinh-sua-thong-tin.html?retuntUrl=checkout.html">Thay đổi địa chỉ</a>
+					</div>
+
+					@*<div class="row " id="newLocation" style="display: none;">
+						<div class="col-4">
+							<div class="mb-3">
+								<label class="form-label">Tỉnh/Thành<span class="text-danger">*</span></label><br />
+								<select id="TinhThanh" asp-for="TinhThanh" class="myniceselect nice-select wide" data-toggle="select2" title="TinhThanh" readonly>
+									<option value="0" disabled selected>Tỉnh/Thành</option>
+									@foreach (var item in ViewBag.lsTinhThanh)
+									{
+										<option value="@item.Value">@item.Text</option>
+									}
+								</select>
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="mb-3">
+								<label class="form-label">Quận/Huyện<span class="text-danger">*</span></label>
+								<select id="QuanHuyen" asp-for="QuanHuyen" class="myniceselect wide" data-toggle="select2" title="QuanHuyen" readonly>
+									<option value="0" disabled selected>Quận/Huyện</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="mb-3">
+								<label class="form-label">Phường/Xã<span class="text-danger">*</span></label> <br />
+								<select id="PhuongXa" asp-for="PhuongXa" class="myniceselect wide" data-toggle="select2" title="PhuongXa" required>
+									<option value="0" disabled selected>Phường/Xã</option>
+								</select>
+							</div>
+						</div>
+					</div>*@
+
+					
+
+					<div class="row mt-4">
+						<div class="col-sm-6">
+							<a href="cart.html" class="btn text-muted d-none d-sm-inline-block btn-link fw-semibold">
+								<i class="mdi mdi-arrow-left"></i> Quay lại giỏ hàng
+							</a>
+						</div> <!-- end col -->
+						<div class="col-sm-6 d-flex ">
+							
+								<div class="text-sm-start mr-3">
+									<i class="mdi mdi-cash-multiple me-1"></i>
+									<input class="btn btn-outline-dark" value="XÁC NHẬN ĐẶT HÀNG" type="submit">
+								</div>
+						
+								<div class="text-sm-end">
+								<a class="btn btn-outline-primary" href="@Url.Action("Payment","PaymentOnline")">Thanh toán bằng VNPAY</a>
+								</div>
+							
+						</div> <!-- end col -->
+					</div> <!-- end row -->
+				</form>
+			</div>
+			<div class="col-lg-5">
+				<div class="border p-3 mt-4 mt-lg-0 rounded">
+					<h4 class="header-title mb-3">Thông tin đơn hàng</h4>
+
+					<div class="table-responsive">
+						<table class="table table-centered mb-0">
+							<tbody>
+								@if (Carts != null && Carts.Count() > 0)
+								{
+									foreach (var item in Carts)
+									{
+										<tr>
+											<td>
+
+												<p class="m-0 d-inline-block align-middle">
+													<div class="row">
+														<div class="col-4">
+															<img src="~/images/products/@item.product.Thumb" alt="contact-img" title="contact-img" class="rounded me-2" height="50">
+														</div>
+														<div class="col-8">
+															<a href="apps-ecommerce-products-details.html" class="text-body fw-semibold">@item.product.ProductName</a>
+															<br>
+															<small>@item.amount x @item.product.Price</small>
+														</div>
+													</div>
+
+
+												</p>
+											</td>
+											<td class="text-end m-0 d-inline-block align-middle">
+											
+												
+											</td>
+										</tr>
+									}
+								}
+								else
+								{
+										<p>Không có đơn hàng nào</p>
+								}
+								<tr class="text-end">
+									<td>
+										<h6 class="m-0">Tổng :</h6>
+									</td>
+									<td class="text-end">
+										
+
+											@(Carts.Sum(x => x.TotalMoney).ToString("#,##0")).đ
+									
+										
+
+
+									</td>
+								</tr>
+								<tr class="text-end">
+									<td>
+										<h6 class="m-0">Phí vận chuyển:</h6>
+									</td>
+									<td class="text-end">
+										FREE @ViewBag.Discount
+									</td>
+								</tr>
+								<tr class="text-end">
+									<td>
+										<h5 class="m-0">Tổng tiền:</h5>
+									</td>
+									<td class="text-end fw-semibold">
+										@{
+											var discountedPrice = Context.Session.GetInt32("discountedPrice");
+											var total = Carts.Sum(x => x.TotalMoney);
+											var formattedTotalAll = total;
+
+											if (discountedPrice.HasValue)
+											{
+												var discountPercent = (double)discountedPrice / 100;
+												var totalDiscount = total * discountPercent;
+												formattedTotalAll = total - totalDiscount;
+											}
+										}
+										@if (discountedPrice.HasValue)
+										{
+											@(formattedTotalAll.ToString("N0"))	
+											
+										}
+										else
+										{
+											@total.ToString("N0")
+										}.đ
+
+										@if(discountedPrice.HasValue){
+											<br><span class="text-danger">(- @discountedPrice %)</span>
+										}
+
+									@*	@{
+											var totalAll = Context.Session.GetString("discountedPrice");
+											
+											var total = Carts.Sum(x => x.TotalMoney).ToString("#,##0");
+										}
+										@if (totalAll != null)
+										{
+											var totaldiscount = Carts.Sum(x => x.TotalMoney) * (totalAll/100) ;
+											var formattedTotalAll = Carts.Sum(x => x.TotalMoney) - totaldiscount ;
+											formattedTotalAll = decimal.Parse(totalAll).ToString("N0");
+										
+											@formattedTotalAll
+
+										}
+										else
+										{
+											@total
+										}đ*@
+
+
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- end table-responsive -->
+				</div> <!-- end .border-->
+
+			</div> <!-- end col -->
+		</div> <!-- end row-->
+	</div>
+</div>
+
+@section Scripts{
+
+	<script>
+		$(document).ready(function () {
+			$('#TinhThanh').change(function () {
+				var selectedProvinceCode = $(this).val();
+				if (selectedProvinceCode) {
+					$.ajax({
+						url: '/Location/QuanHuyenList',
+						type: 'GET',
+						data: { CodeProvice: selectedProvinceCode },
+						success: function (data) {
+							$('#QuanHuyen').empty();
+							$('#QuanHuyen').append('<option value="0" disabled selected>Quận/Huyện</option>');
+							$.each(data, function (index, item) {
+								$('#QuanHuyen').append('<option value="' + item.code + '">' + item.name + '</option>');
+							});
+							$('#PhuongXa').empty();
+							$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+						}
+					});
+				} else {
+					$('#QuanHuyen').empty();
+					$('#QuanHuyen').append('<option value="0" disabled selected>Quận/Huyện</option>');
+					$('#PhuongXa').empty();
+					$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+				}
+			});
+
+			$('#QuanHuyen').change(function () {
+				var selectedDistrictCode = $(this).val();
+				if (selectedDistrictCode) {
+					$.ajax({
+						url: '/Location/PhuongXaList',
+						type: 'GET',
+						data: { CodeDistrict: selectedDistrictCode },
+						success: function (data) {
+							$('#PhuongXa').empty();
+							$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+							$.each(data, function (index, item) {
+								$('#PhuongXa').append('<option value="' + item.code + '">' + item.name + '</option>');
+							});
+						}
+					});
+				} else {
+					$('#PhuongXa').empty();
+					$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+				}
+			});
+		});
+
+
+
+
+
+		document.getElementById("changeAddressLink").addEventListener("click", function () {
+			document.getElementById("newLocation").style.display = "block";
+			document.getElementById("location").style.display = "none";
+		});
+	</script>
+}
+	@*	<script>
+		$(document).ready(function () {
+			// Sự kiện khi chọn tỉnh/thành
+			$('#TinhThanh').change(function () {
+				var selectedProvince = $(this).val();
+				if (selectedProvince) {
+					// Gửi yêu cầu AJAX để lấy danh sách quận/huyện
+					$.ajax({
+						url: '/Location/QuanHuyenList',
+						type: 'GET',
+						data: { CodeProvice: selectedProvince },
+						success: function (data) {
+							// Xóa danh sách quận/huyện cũ
+							$('#QuanHuyen').empty();
+							$('#QuanHuyen').append('<option value="" disabled selected>Quận/Huyện</option>');
+
+							// Thêm danh sách quận/huyện mới
+							$.each(data, function (index, district) {
+								$('#QuanHuyen').append('<option value="' + district.value + '">' + district.text + '</option>');
+							});
+						}
+					});
+				} else {
+					// Nếu không có tỉnh/thành được chọn, xóa danh sách quận/huyện
+					$('#QuanHuyen').empty();
+					$('#QuanHuyen').append('<option value="" disabled selected>Quận/Huyện</option>');
+
+					// Xóa danh sách phường/xã
+					$('#PhuongXa').empty();
+					$('#PhuongXa').append('<option value="" disabled selected>Phường/Xã</option>');
+				}
+			});
+
+			// Sự kiện khi chọn quận/huyện
+			$('#QuanHuyen').change(function () {
+				var selectedDistrict = $(this).val();
+				if (selectedDistrict) {
+					// Gửi yêu cầu AJAX để lấy danh sách phường/xã
+					$.ajax({
+						url: '/Location/PhuongXaList',
+						type: 'GET',
+						data: { CodeDistrict: selectedDistrict },
+						success: function (data) {
+							// Xóa danh sách phường/xã cũ
+							$('#PhuongXa').empty();
+							$('#PhuongXa').append('<option value="" disabled selected>Phường/Xã</option>');
+
+							// Thêm danh sách phường/xã mới
+							$.each(data, function (index, ward) {
+								$('#PhuongXa').append('<option value="' + ward.value + '">' + ward.text + '</option>');
+							});
+						}
+					});
+				} else {
+					// Nếu không có quận/huyện được chọn, xóa danh sách phường/xã
+					$('#PhuongXa').empty();
+					$('#PhuongXa').append('<option value="" disabled selected>Phường/Xã</option>');
+				}
+			});
+		});
+	</script>*@

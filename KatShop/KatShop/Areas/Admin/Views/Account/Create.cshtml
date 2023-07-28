@@ -1,0 +1,73 @@
+﻿@model KatShop.Models.Account
+
+@{
+    ViewData["Title"] = "Tạo tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Account" asp-action="Create" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="FullName">Tên Role</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Họ và tên " asp-for="FullName" required>
+                <div class="valid-feedback">
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="Phone">Số điện thoại</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Số điện thoại" asp-for="Phone" required>
+                <div class="valid-feedback">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="Email">Email</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Email" asp-for="Email" required>
+                <div class="valid-feedback">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="Password">Mật khẩu</label>
+                <div class="input-group input-group-merge">
+                <input type="password" id="password" class="form-control" asp-for="Password" placeholder="Mật khẩu" />
+                <div class="input-group-text" data-password="false">
+                    
+                    
+                    <span class="password-eye"></span>
+                </div>
+                </div>
+                <div class="valid-feedback">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" asp-for="RoleId">Quyền truy cập</label>
+                <select class="form-control" asp-for="RoleId" asp-items="@ViewBag.QuyenTruyCap" required>
+                    <option value="0" disabled selected>Chọn quyền truy cập</option>
+                </select>
+                <div class="valid-feedback">
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3 ">
+                <input type="checkbox" class="form-check-input" asp-for="Active">
+                <label class="form-check-label" asp-for="Active">Trạng thái</label>
+            </div>
+
+            <button class="btn btn-success" type="submit" value="Create">Tạo</button>
+
+            | <a class="btn btn-light" asp-action="Index">Quay lại</a>
+        </form>
+        </div>
+        </div>

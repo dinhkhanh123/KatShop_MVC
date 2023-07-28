@@ -1,0 +1,210 @@
+﻿<style>
+	.dropdown:hover > .dropdown-menu {
+		display: block;
+	}
+
+	.dropdown > .dropdown-toggle:active {
+		/*Without this, clicking will make it sticky*/
+		pointer-events: none;
+	}
+
+
+	.search-box {
+		transition: width 0.6s, border-radius 0.6s, background 0.6s, box-shadow 0.6s;
+		width: 40px;
+		height: 40px;
+		border-radius: 20px;
+		border: none;
+		cursor: pointer;
+		background: #ebebeb;
+	}
+
+		.search-box + label .search-icon {
+			color: black;
+		}
+
+		.search-box:hover {
+			color: white;
+			background: #c8c8c8;
+			box-shadow: 0 0 0 5px #3d4752;
+		}
+
+			.search-box:hover + label .search-icon {
+				color: white;
+			}
+
+		.search-box:focus {
+			transition: width 0.6s cubic-bezier(0, 1.22, 0.66, 1.39), border-radius 0.6s, background 0.6s;
+			border: none;
+			outline: none;
+			box-shadow: none;
+			padding-left: 10px;
+			cursor: text;
+			width: 200px;
+			border-radius: auto;
+			background: #ebebeb;
+			color: black;
+		}
+
+			.search-box:focus + label .search-icon {
+				color: black;
+			}
+
+		.search-box:not(:focus) {
+			text-indent: -5000px;
+		}
+
+	#search-submit {
+		position: relative;
+		left: -5000px;
+	}
+
+	.search-icon {
+		position: relative;
+		left: -30px;
+		color: white;
+		cursor: pointer;
+	}
+
+</style>
+<header class="header trans_300">
+	<!-- Top Navigation -->
+
+	<div class="top_nav h-5">
+	</div>
+
+	<!-- Main Navigation -->
+	<div class="main_nav_container">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-right">
+					<div class="logo_container ml-5">
+						<a asp-controller="Home" asp-action="Index"><img width="100" height="60" src="~/assets/images/logo-kat.png" /></a>
+						@*<a asp-controller="Home" asp-action="Index">Kat<span>Shop</span></a>*@
+					</div>
+					<nav class="navbar">
+						<ul class="navbar_menu">
+						
+							<li>
+								<a asp-controller="Product" asp-action="List" asp-route-alias="tui-da-that">Túi da thật</a>
+							</li>
+							
+							<li><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
+							<li><a asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
+							<li><a asp-controller="Blog" asp-action="Index">Bài viết</a></li>
+							<li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+						</ul>
+						<ul class="navbar_user">
+
+							<li>
+								<form class="search-container" id="search-form" method="get" asp-controller="Search" asp-action="FindProduct">
+									<input id="keyword" type="text" class="search-box" name="keyword" />
+									<label for="search-box"><span class="fa fa-search search-icon"></span></label>
+									<input type="submit" id="search-submit" />
+								</form>
+							</li>
+							@if (User.Identity.IsAuthenticated){
+								<li><a asp-controller="Accounts" asp-action="Dashboard"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+							}else{
+								<li><a asp-controller="Accounts" asp-action="Login"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+							}
+							
+							@await Component.InvokeAsync("NumberCart")
+						</ul>
+						<div class="hamburger_container">
+							<i class="fa fa-bars" aria-hidden="true"></i>
+						</div>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+
+<div class="fs_menu_overlay"></div>
+<div class="hamburger_menu">
+	<div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+	<div class="hamburger_menu_content text-right">
+		<ul class="menu_top_nav">
+	
+			<li class="menu_item has-children">
+				<a href="#">
+					Tài khoản
+					<i class="fa fa-angle-down"></i>
+				</a>
+				<ul class="menu_selection">
+					<li><a href="dang-nhap.html"><i class="fa fa-sign-in" aria-hidden="true"></i> Đăng nhập</a></li>
+					<li><a href="dang-ky.html"><i class="fa fa-user-plus" aria-hidden="true"></i> Đăng ký</a></li>
+				</ul>
+			</li>
+			<li class="menu_item"><a href="danhmuc/tui-da-that">Túi da thật</a></li>
+		
+			<li class="menu_item"><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
+			<li class="menu_item"><a href="about.html">Về chúng tôi</a></li>
+			<li class="menu_item"><a href="blogs.html">Bài viết</a></li>
+			<li class="menu_item"><a href="contact.html">Liên hệ</a></li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+
+<!-- Modal         class="js-menu__open" data-menu="#main-nav"-->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">GIỎ HÀNG</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+
+				<a href="cart.html" class="btn btn-primary">GIỎ HÀNG</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="js-menu__context">
+	@await Component.InvokeAsync("HeaderCart")
+</div>
+@section Scripts{
+
+	<script>
+		document.addEventListener("touchstart", function () { }, true);
+
+		$(document).ready(function () {
+			// Xử lý sự kiện khi biểu tượng search được nhấn
+			$('.search-icon').click(function (event) {
+				event.preventDefault(); // Ngăn chặn hành vi mặc định của biểu tượng search
+
+				var keyword = $('#keyword').val(); // Lấy từ khóa từ input
+
+				// Gửi yêu cầu tìm kiếm sản phẩm bằng Ajax
+				$.ajax({
+					url: '/Product/Search',
+					type: 'POST',
+					data: { keyword: keyword },
+					success: function (result) {
+						// Xử lý kết quả tìm kiếm ở đây, ví dụ: cập nhật danh sách sản phẩm trên giao diện
+						// ...
+					},
+					error: function (xhr, status, error) {
+						// Xử lý lỗi nếu có
+						// ...
+					}
+				});
+			});
+		});
+	</script>
+}

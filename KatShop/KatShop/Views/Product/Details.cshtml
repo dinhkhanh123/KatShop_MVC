@@ -1,0 +1,575 @@
+﻿@using Microsoft.AspNetCore.Http
+@using System.Security.Claims
+@model KatShop.Models.Product
+@{
+	ViewData["Title"] = Model.Title;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<Product> lsProducts = ViewBag.SanPham;
+	string returnUrl = Context.Request.Query["returnUrl"];
+	string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<div class="container single_product_container">
+	<div class="row">
+		<div class="col">
+
+			<!-- Breadcrumbs -->
+
+			<div class="breadcrumbs d-flex flex-row align-items-center">
+				<ul>
+					<li><a asp-controller="Home" asp-action="index">Trang chủ</a></li>
+					<li><a asp-controller="Product" asp-action="Index"><i class="fa fa-angle-right" aria-hidden="true"></i>Sản phẩm</a></li>
+					<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>@ViewData["Title"]</a></li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-7">
+			<div class="single_product_pics">
+				<div class="row">
+					<div class="col-lg-3 thumbnails_col order-lg-1 order-2">
+						<div class="single_product_thumbnails">
+							@if (Model.Thumb1 == null)
+							{
+								Model.Thumb1 = "default.jpg";
+							}
+
+							@if (Model.Thumb2 == null)
+							{
+								Model.Thumb2 = "default.jpg";
+							}
+
+							@if (Model.Thumb3 == null)
+							{
+								Model.Thumb3 = "default.jpg";
+							}
+							<ul>
+								<li><img src="~/images/products/@Model.Thumb1" alt="" data-image="/images/products/@Model.Thumb1" height="140"></li>
+								<li class="active"><img src="~/images/products/@Model.Thumb2" alt="" data-image="/images/products/@Model.Thumb2" height="140"></li>
+								<li><img src="~/images/products/@Model.Thumb3" alt="" data-image="/images/products/@Model.Thumb3" height="140"></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-9 image_col order-lg-2 order-1">
+						<div class="single_product_image">
+							<div class="single_product_image_background" style="background-image:url(images/products/@Model.Thumb)"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5">
+			<div class="product_details">
+				<div class="product_details_title">
+					<h2>@Model.Title</h2>
+					<p>@Model.ShortDesc</p>
+				</div>
+				<div class="free_delivery d-flex flex-row align-items-center justify-content-center">
+					<span class="ti-truck"></span><span>Ship COD toàn quốc</span>
+				</div>
+				@if (Model.Discount != null)
+				{
+					<div class="original_price">@Model.Price.Value.ToString("#,##0") VNĐ</div>
+					<div class="product_price">@Model.Discount.Value.ToString("#,##0") VNĐ</div>
+
+				}
+				else
+				{
+					<div class="product_price">@Model.Price.Value.ToString("#,##0") VNĐ</div>
+				}
+
+
+				<ul class="star_rating">
+					<li><i class="fa fa-star" aria-hidden="true"></i></li>
+					<li><i class="fa fa-star" aria-hidden="true"></i></li>
+					<li><i class="fa fa-star" aria-hidden="true"></i></li>
+					<li><i class="fa fa-star" aria-hidden="true"></i></li>
+					<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+				</ul>
+				<div class="product_color">
+
+					<span></span>
+					<ul>
+						<li><a target="_blank" href="https://www.instagram.com/kat.tuidathat/"><i class="fa fa-instagram"></i></a></li>
+						<li><a target="_blank" href="https://facebook.com/tuidathat.vn"><i class="fa fa-facebook"></i></a></li>
+						<li><a target="_blank" href="https://www.youtube.com/channel/UCagNEvy1JSwmTjkosxeDmRg"><i class="fa fa-youtube"></i></a></li>
+						<li><a target="_blank" href="https://www.pinterest.ca/kattuidathat"><i class="fa fa-twitter"></i></a></li>
+						<li><a target="_blank" href="https://www.pinterest.ca/kattuidathat"><i class="fa fa-pinterest-p"></i></a></li>
+					</ul>
+				</div>
+				<hr />
+				<div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+					<span>Số lượng:</span>
+					<div class="quantity_selector cartItem cart-plus-minus-box num-block">
+						<div class="num-in">
+							<span class="minus dis"><i class="fa fa-minus" aria-hidden="true"></i></span>
+
+							
+
+							@if (Model.Discount != null)
+							{
+								<input type="text" id="txtsoLuong" name="txtsoLuong" class="cart-plus-minus-box in-num" value="1" readonly="">
+
+								<input type="hidden" data-mahh="@Model.ProductId" data-dongia="@Model.Discount" />
+								<input type="hidden" id="txtprice" name="txtPrice"  value="@Model.Discount" readonly="">
+							}
+							else
+							{
+								<input type="text" id="txtsoLuong" name="txtsoLuong" class="cart-plus-minus-box in-num" value="1" readonly="">
+
+								<input type="hidden" data-mahh="@Model.ProductId" data-dongia="@Model.Price" />
+								<input type="hidden" id="txtprice" name="txtPrice"  value="@Model.Price" readonly="">
+							}
+							<span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+						</div>
+
+					</div>
+					@*	<div class="quantity_selector cartItem cart-plus-minus-box">
+					<span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+					<span id="quantity_value">1</span>
+
+					<input type="hidden" data-mahh="@Model.ProductId" data-dongia="@Model.Price"  />
+					<span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+					</div>*@
+					<div class="red_button btn ml-4 add-to-cart">
+						<a href="#">Thêm vào giỏ</a>
+						<input type="hidden" asp-for="ProductId" />
+					</div>
+					<div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div>
+				</div>
+				<hr />
+				<div class="short_desc mt-5">
+
+					<p>0977.757.596 - Hotline đặt hàng nhanh</p>
+					<p>Bảo hành da thật trọn đời</p>
+					<p>Bảo dưỡng và làm sạch sản phẩm miễn phí trọn đời</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Tabs -->
+
+<div class="tabs_section_container">
+
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="tabs_container">
+					<ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+						<li class="tab active" data-active-tab="tab_1"><span>Mô tả</span></li>
+						<li class="tab" data-active-tab="tab_2"><span>Thông tin thêm</span></li>
+						<li class="tab" data-active-tab="tab_3"><span>Đánh giá</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+
+				<!-- Tab Description -->
+
+				<div id="tab_1" class="tab_container active">
+					<div class="row">
+						<div class="col-lg-12 desc_col">
+							@*	<div class="tab_title">
+							<h4>Description</h4>
+							</div>*@
+							<div class="tab_text_block">
+								@Html.Raw(Model.ShortDesc)
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Tab Additional Info -->
+
+				<div id="tab_2" class="tab_container">
+					<div class="row">
+						<div class="col additional_info_col">
+							@*	<div class="tab_title additional_info_title">
+							<h4>Additional Information</h4>
+							</div>*@
+							@Html.Raw(Model.Description)
+						</div>
+					</div>
+				</div>
+
+				<!-- Tab Reviews -->
+
+				<div id="tab_3" class="tab_container">
+					<div class="row">
+						<div class="col-lg-6 reviews_col">
+							<div class="tab_title reviews_title">
+								<h4>Đánh giá (@ViewBag.TotalReviews)</h4>
+							</div>
+							<!-- User Reviews -->
+							@if (ViewBag.Reviews != null)
+							{
+								@foreach (var review in ViewBag.Reviews)
+								{
+									<div class="user_review_container d-flex flex-column flex-sm-row">
+										<div class="user">
+											<div class="user_pic">
+												<img src="~/images/customer/khanh.jpg" style="	width: 70px;	height: 70px;	border-radius: 50%;" />
+											</div>
+											<div class="user_rating">
+												<ul class="star_rating">
+													@{
+														for (int i = 0; i < review.Rating; i++)
+														{
+															<li><i class="fa fa-star" aria-hidden="true"></i></li>
+														}
+														for (int i = review.Rating; i < 5; i++)
+														{
+															<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+														}
+													}
+												</ul>
+											</div>
+										</div>
+										<div class="review">
+											@if (review.DateReview != null)
+											{
+												<div class="review_date">@review.DateReview.ToString("dd MMM yyyy")</div>
+											}
+
+											<div class="user_name">@review.Name</div>
+											<p>@review.Message</p>
+										</div>
+									</div>
+								}
+							}
+							else
+							{
+								<p>Không có lượt đánh giá nào cho sản phẩm này</p>
+							}
+
+
+						</div>
+						<!-- Add Review -->
+
+						<div class="col-lg-6 add_review_col">
+
+							@if (User.Identity.IsAuthenticated)
+							{
+								<div class="add_review">
+									<form id="review_form" action="post">
+										<div>
+											<input id="review_product_id" class="form_input " type="hidden" name="productId" value="@Model.ProductId">
+											<input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Tên khách hàng*" required="required" data-error="Vui lòng nhập tên." value="@User.Identity.Name" @if(User.Identity.IsAuthenticated) {
+										<text>readonly</text>
+} />
+
+											<input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Vui lòng nhập email." >
+
+										</div>
+										<div>
+											<h1>Đánh giá của bạn:</h1>
+											<ul class="user_star_rating">
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star" aria-hidden="true"></i></li>
+												<li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+											</ul>
+											<textarea id="review_message" class="input_review" name="message" placeholder="Thêm đánh giá" rows="4" required data-error="Vui lòng thêm đánh giá."></textarea>
+										</div>
+										<div class="text-left text-sm-right">
+											<button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">Gửi</button>
+										</div>
+									</form>
+								</div>
+							}
+							else
+							{
+								<p>Bạn cần đăng nhập để thêm đánh giá sản phẩm này. Vui lòng <a href="@Url.Action("Login", "Accounts", new { returnUrl = returnUrl })">đăng nhập</a>.</p>
+							}
+
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Best Sellers -->
+
+<div class="best_sellers">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="section_title new_arrivals_title">
+					<h3>[ SẢN PHẨM LIÊN QUAN ]</h3>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="product_slider_container">
+					<div class="owl-carousel owl-theme product_slider">
+						@if (lsProducts != null)
+						{
+							foreach (var item in lsProducts)
+							{
+								<!-- Slide 1 -->
+								string url = $"/{item.Alias}-{item.ProductId}.html";
+								<div class="owl-item product_slider_item">
+									<div class="product-item">
+										<div class="product discount">
+											<div class="product_image">
+												<img src="~/images/products/@item.Thumb" alt="@item.Title">
+											</div>
+											<div class="favorite favorite_left"></div>
+											@if (item.HomeFlag)
+											{
+												<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+											}
+											@if (item.BestSaller)
+											{
+												<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+											}
+											<div class="product_info">
+												<h6 class="product_name"><a href="@url">@item.ProductName</a></h6>
+												<div class="product_price">@item.Price.Value.ToString("#,##0") VNĐ</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							}
+						}
+
+					</div>
+
+					<!-- Slider Navigation -->
+
+					<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+						<i class="fa fa-chevron-left" aria-hidden="true"></i>
+					</div>
+					<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+						<i class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Benefit -->
+
+<div class="benefit">
+	<div class="container">
+		<div class="row benefit_row">
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>free shipping</h6>
+						<p>Suffered Alteration in Some Form</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>cach on delivery</h6>
+						<p>The Internet Tend To Repeat</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>45 days return</h6>
+						<p>Making it Look Like Readable</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>opening all week</h6>
+						<p>8AM - 09PM</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@section scripts{
+	<style>
+		.num-block .num-in input {
+			border: none;
+			height: 30px;
+			width: 30px;
+			text-align: center;
+			font-size: 16px;
+			font-weight: bold;
+			-webkit-box-shadow: none !important;
+			-moz-box-shadow: none !important;
+			box-shadow: none !important;
+		}
+	</style>
+	<link href="~/assets/styles/single_responsive.css" rel="stylesheet" />
+	<link href="~/assets/styles/single_styles.css" rel="stylesheet" />
+	<script>
+		$(".cartItem").click(function () {
+			var productid = $(this).attr("data-mahh");
+			var Price = $(this).attr("data-dongia");
+			var soluong = parseInt($(this).val());
+			$.ajax({
+				url: "api/cart/update",
+				type: "POST",
+				dataType: "JSON",
+				data: {
+					productID: productid,
+					price: Price,
+					amount: soluong
+				},
+				success: function (result) {
+					if (result.success) {
+						loadHeaderCart();//Reload lai gio hang
+						window.location = 'cart.html';
+					}
+				},
+				error: function (rs) {
+					alert("Cập nhật Cart Error !")
+				}
+			});
+		});
+		$(document).ready(function () {
+			$(function () {
+				$(".add-to-cart").click(function () {
+					var productid = $('#ProductId').val();
+					var soLuong = $('#txtsoLuong').val();
+					var Price = $('#txtprice').val();
+					$.ajax({
+						url: '/api/cart/add',
+						type: "POST",
+						dataType: "JSON",
+						data: {
+							productID: productid,
+							price: Price,
+							amount: soLuong
+						},
+						success: function (response) {
+							if (response.result == 'Redirect') {
+								window.location = response.url;
+							}
+							else {
+								loadHeaderCart(); //Add Product success
+								location.reload();
+							}
+							console.log(response); // log to the console to see whether it worked
+						},
+						error: function (error) {
+							alert("There was an error posting the data to the server: " + error.responseText);
+						}
+					});
+				});
+
+			});
+			function loadHeaderCart() {
+				$('#miniCart').load("/AjaxContent/HeaderCart");
+				$('#numberCart').load("/AjaxContent/NumberCart");
+			}
+		});
+
+		/////////////////// product +/-
+		$(document).ready(function () {
+			$(".num-in span").click(function () {
+				var $input = $(this).parents(".num-block").find("input.in-num");
+				if ($(this).hasClass("minus")) {
+					var count = parseFloat($input.val()) - 1;
+					count = count < 1 ? 1 : count;
+					if (count < 2) {
+						$(this).addClass("dis");
+					} else {
+						$(this).removeClass("dis");
+					}
+					$input.val(count);
+				} else {
+					var count = parseFloat($input.val()) + 1;
+					$input.val(count);
+					if (count > 1) {
+						$(this).parents(".num-block").find(".minus").removeClass("dis");
+					}
+				}
+
+				$input.change();
+				return false;
+			});
+		});
+		// product +/-
+
+
+
+
+
+
+		$(document).ready(function () {
+			$('#review_form').on('submit', function (e) {
+				e.preventDefault();
+
+				// Lấy thông tin từ các trường dữ liệu
+				var id = $('#review_product_id').val();
+				var name = $('#review_name').val();
+				var email = $('#review_email').val();
+				var rating = $('.user_star_rating li i.fa-star').length;
+				var message = $('#review_message').val();
+
+				// Tạo đối tượng đánh giá
+				var review = {
+					ProductId: id,
+					Name: name,
+					Email: email,
+					Rating: rating,
+					Message: message
+				};
+
+				// Gửi đánh giá lên Server
+				$.ajax({
+					url: '@Url.Action("AddReview", "Product")',
+					type: 'POST',
+					data: review,
+					success: function (response) {
+						if (response.success) {
+							// Hiển thị thông báo thành công
+							alert(response.message);
+
+							// Reset form
+							$('#review_form')[0].reset();
+
+							// Cập nhật lại đánh giá trên giao diện nếu cần
+							// ...
+						} else {
+							// Hiển thị thông báo lỗi nếu có lỗi xảy ra
+							alert(response.message);
+						}
+					},
+					error: function () {
+						// Hiển thị thông báo lỗi nếu có lỗi xảy ra
+						alert('Đã xảy ra lỗi khi gửi đánh giá!');
+					}
+				});
+			});
+		});
+
+	</script>
+
+
+
+
+}

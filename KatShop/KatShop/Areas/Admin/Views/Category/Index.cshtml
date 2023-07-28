@@ -1,0 +1,197 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<KatShop.Models.Category>
+
+@{
+	int currentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh mục sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"]</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+
+		<div class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="row mb-2">
+							<div class="col-sm-4">
+								<a class="btn btn-primary mb-2" asp-area="Admin" asp-controller="Category" asp-action="Create"><i class="mdi mdi-plus-circle me-2"></i> Thêm danh mục</a>
+							</div>
+							<div class="col-sm-8">
+
+								<div class="row">
+									<div class="col-md-6">
+									@*	<div class="input-affix m-v-10">
+											<i class="prefix-icon anticon anticon-search opacity-04"></i>
+											<input id="keyword" name="keyword" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
+										</div>*@
+									</div>
+									<div class="col-md-6">
+									
+									</div>
+								</div>
+
+							</div>
+							<!-- end col-->
+						</div>
+
+						<div class="table-responsive">
+							<table class="table table-centered w-100 dt-responsive nowrap" id="products-datatable">
+								<thead class="table-light">
+									<tr>
+										<th class="all" style="width: 20px;">
+											<div class="form-check">
+												<input type="checkbox" class="form-check-input" id="customCheck1">
+												<label class="form-check-label" for="customCheck1">&nbsp;</label>
+											</div>
+										</th>
+										<th>ID</th>
+										<th>Tên danh mục</th>
+										<th>Sắp xếp</th>
+										<th>Trạng thái</th>							
+										<th style="width: 200px;"></th>
+									</tr>
+								</thead>
+								<tbody id="records_table">
+									@if (Model != null)
+									{
+										@foreach (var item in Model)
+										{
+											<tr>
+												<td>
+													<div class="form-check">
+														<input type="checkbox" class="form-check-input" id="customCheck2">
+														<label class="form-check-label" for="customCheck2">&nbsp;</label>
+													</div>
+												</td>
+												<td>					
+													<p class="m-0 d-inline-block align-middle font-16">
+														<a href="apps-ecommerce-products-details.html" class="text-body">@item.CatId</a>
+														
+													</p>
+												</td>
+												<td>
+													<img src="~/images/category/@item.Thumb" alt="contact-img" title="@item.CatName" class="rounded me-3" width="58" height="58">
+													@item.CatName
+												</td>
+											
+												<td>
+													@item.Ordering
+												</td>
+
+												
+												@if (item.Published)
+												{
+													<td>
+														<span class="badge bg-success">Active</span>
+													</td>
+												}
+												else
+												{
+													<td>
+														<span class="badge bg-danger">Deactive</span>
+													</td>
+												}
+
+												<td class="table-action">
+													<a class="btn btn-primary" asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.CatId"><i class="mdi mdi-square-edit-outline"></i></a>
+													<a class="btn btn-success" asp-area="Admin" asp-controller="Category" asp-action="Details" asp-route-id="@item.CatId"><i class="mdi mdi-eye"></i></a>
+										
+													<!-- Button trigger modal -->
+													<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteCategory-"+item.CatId)" data-url="@Url.Action($"Delete/{item.CatId}")">
+														<i class="mdi mdi-delete"></i>
+													</button>
+													@await Html.PartialAsync("_DeleteCategoryPartialView",item)
+
+												</td>
+											</tr>
+
+										}
+									}
+								</tbody>
+							</table>
+						</div>
+					</div> <!-- end card-body-->
+				</div> <!-- end card-->
+			</div> <!-- end col -->
+		</div>
+		<!-- end row -->
+
+	</div> <!-- container -->
+
+</div> <!-- content -->
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination">
+		<pager class="page-item" list="Model" asp-area="Admin" asp-controller="Category" asp-action="Index" />
+
+	</ul>
+</nav>
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        //jQuery("#txtCatID").change(function () {
+        //    var catID = jQuery(this).children(":selected").attr("value");
+        //    catID = parseFloat(catID);
+        //    $('#txtCatID option')
+        //        .removeAttr('selected');
+        //    $("#txtCatID > [value=" + catID + "]").attr("selected", "true");
+        //    $.ajax({
+        //        url: '/Admin/AdminProducts/Filtter',
+        //        datatype: "json",
+        //        type: "GET",
+        //        data: {
+        //            CatID: catID
+        //        },
+        //        async: true,
+        //        success: function (results) {
+        //            if (results.status == "success") {
+        //                window.location.href = results.redirectUrl;
+        //            }
+        //        },
+        //        error: function (xhr) {
+        //            alert('error');
+        //        }
+        //    });
+        //});
+
+        $("#keyword").keyup(function () {
+            var strkeyword = $('#keyword').val();
+            $.ajax({
+                url: '/Admin/Search/FindProduct/',
+                datatype: "json",
+                type: "POST",
+                data: { keyword: strkeyword },
+                async: true,
+                success: function (results) {
+                    $("#records_table").html("");
+                    $("#records_table").html(results);
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
+        });
+    });
+</script>
+}
+

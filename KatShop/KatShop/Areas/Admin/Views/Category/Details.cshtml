@@ -1,0 +1,111 @@
+﻿@model KatShop.Models.Category
+
+@{
+    ViewData["Title"] = Model.CatName;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"]</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<hr />
+
+		<div class="table-responsive ">
+			<table class="table mb-0 ">
+				<tbody>
+					<tr>
+						<td> <strong>ID </strong> :</td>
+						<td>@Model.CatId</td>
+					</tr>
+					<tr>
+						<td><strong>Tên danh mục </strong> :</td>
+						<td>@Model.CatName</td>
+					</tr>
+					<tr>
+						<td><strong>Thumb </strong> : </td>
+						<td>@Model.Thumb</td>
+					</tr>
+					<tr>
+						<td><strong>Ordering </strong> : </td>
+						<td>@Model.Ordering</td>
+					</tr>
+					
+				
+					<tr>
+						<td><strong>Mô tả  </strong> : </td>
+						<td>@Model.Description</td>
+					</tr>
+				
+					<tr>
+						<td><strong>Title </strong> : </td>
+						<td>@Model.Title</td>
+					</tr>
+					<tr>
+						<td><strong>Alias </strong> : </td>
+						<td>@Model.Alias</td>
+					</tr>
+					<tr>
+						<td><strong>MetaDecs </strong> : </td>
+						<td>@Model.MetaDesc</td>
+					</tr>
+					<tr>
+						<td><strong>MetaKey </strong> : </td>
+						<td>@Model.MetaKey</td>
+					</tr>
+					<tr>
+						<td><strong>Cover </strong> : </td>
+						<td>@Model.Cover</td>
+					</tr>
+					<tr>
+						<td><strong>SchemaMarkup </strong> : </td>
+						<td>@Model.SchemaMarkup</td>
+					</tr>
+				
+					<tr>
+						<td><strong>Trạng thái </strong> : </td>
+						<td>
+							@if (Model.Published)
+							{
+								<div class="form-check form-check-inline">
+									<input type="checkbox" class="form-check-input" id="customCheck5" checked disabled>
+									<label class="form-check-label" for="customCheck5"></label>
+								</div>
+							}
+							else
+							{
+								<div class="form-check form-check-inline">
+									<input type="checkbox" class="form-check-input" id="customCheck6" disabled>
+									<label class="form-check-label" for="customCheck6"></label>
+								</div>
+							}
+						</td>
+
+					</tr>
+
+				
+				</tbody>
+			</table>
+
+			<hr />
+			<a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.CatId">Chỉnh sửa</a> |
+			<a class="btn btn-dark" asp-action="Index">Quay lại</a>
+
+		</div>
+	</div>
+</div>

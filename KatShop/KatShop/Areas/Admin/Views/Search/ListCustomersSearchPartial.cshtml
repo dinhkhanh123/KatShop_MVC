@@ -1,0 +1,35 @@
+﻿@model List<Customer>
+@{
+}
+@if (Model != null)
+{
+	@foreach (var item in Model)
+	{
+		<tr>
+
+			<td>@item.CusId</td>
+			<td>@item.FullName</td>
+			<td>@item.Phone</td>
+			<td>@item.Email</td>
+			<td>@item.Address</td>
+			@if (item.Active)
+			{
+				<td><i class="mdi mdi-circle text-success"></i> Hoạt động</td>
+			}
+			else
+			{
+				<td><i class="mdi mdi-circle text-danger"></i> Khóa </td>
+			}
+			<td>
+				@* <a class="btn btn-primary disabled"  asp-area="Admin" asp-controller="Customer" asp-action="Edit" asp-route-id="@item.CusId"><i class="mdi mdi-square-edit-outline"></i></a>*@
+				<a class="btn btn-success" asp-area="Admin" asp-controller="Customer" asp-action="Details" asp-route-id="@item.CusId"><i class="mdi mdi-eye"></i></a>
+
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteCustomer-"+item.CusId)" data-url="@Url.Action($"Delete/{item.CusId}")">
+					<i class="mdi mdi-delete"></i>
+				</button>
+				@await Html.PartialAsync("_DeleteCustomerPartialView",item)
+			</td>
+		</tr>
+	}
+}

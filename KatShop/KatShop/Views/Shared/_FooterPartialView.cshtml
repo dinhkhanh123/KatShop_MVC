@@ -1,0 +1,155 @@
+﻿	<!-- Newsletter -->
+
+<div class="newsletter">
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center">
+					
+					<p>ĐĂNG KÝ NHẬN TIN / ƯU ĐÃI TỪ KAT</p>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<form action="post">
+					<div class="newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center">
+						<input id="newsletter_email" type="email" placeholder="Địa chỉ email của bạn" required="required" data-error="Valid email is required.">
+						<button id="newsletter_submit" type="submit" class="newsletter_submit_btn trans_300" value="Submit">Gửi</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+					<ul class="footer_nav">
+						<li><a href="blogs.html">Bài viết</a></li>
+						<li><a href="about.html">Về Kat</a></li>
+						<li><a href="contact.html">Liên hệ</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+					<ul>
+						<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="footer_nav_container">
+
+
+					<div id="fb-root"></div>
+					<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0&appId=610644557764515&autoLogAppEvents=1" nonce="s2DHXfay"></script>
+					<div class="fb-page" data-href="https://www.facebook.com/tuidathat.vn" data-tabs="timeline" data-width="500" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="https://www.facebook.com/tuidathat.vn" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/tuidathat.vn">Túi da thật Kat</a></blockquote></div>
+
+				</div>
+
+			</div>
+			<div class="col-lg-6 t">
+				<div class="footer_nav_container float-right mb-0">
+
+				&copy; 2023 - KatShop - <a asp-area="" asp-controller="Home" asp-action="Privacy">điều khoản</a>
+
+				</div>
+				
+			</div>
+		
+			
+		</div>
+	</div>
+</footer>
+@*<a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true"></a>*@
+<style>
+	.scroll{
+    color:#fff;
+    margin-top:100px;
+}
+
+#toTopBtn {
+     position: fixed;
+    bottom: 100px;
+    right: 39px;
+    z-index: 98;
+    padding: 21px;
+    background-color: hsla(5,76%,62%,.8);
+    
+}
+
+.js .cd-top--fade-out {
+    opacity: .5;
+}
+
+.js .cd-top--is-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.js .cd-top {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s,visibility .3s,background-color .3s;
+}
+
+.cd-top {
+    position: fixed;
+    bottom: 20px;
+    bottom: var(--cd-back-to-top-margin);
+    right: 20px;
+    right: var(--cd-back-to-top-margin);
+    display: inline-block;
+    height: 40px;
+    height: var(--cd-back-to-top-size);
+    width: 40px;
+    width: var(--cd-back-to-top-size);
+    box-shadow: 0 0 10px rgba(0,0,0,.05) !important;
+    background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg) no-repeat center 50%;
+    background-color: hsla(5,76%,62%,.8);
+    background-color: hsla(var(--cd-color-3-h),var(--cd-color-3-s),var(--cd-color-3-l),0.8);
+}
+</style>
+<script>
+
+$(document).ready(function() {
+  $(window).scroll(function() {
+    if ($(this).scrollTop() > 20) {
+      $('#toTopBtn').fadeIn();
+    } else {
+      $('#toTopBtn').fadeOut();
+    }
+  });
+
+  $('#toTopBtn').click(function() {
+    $("html, body").animate({
+      scrollTop: 0
+    }, 1000);
+    return false;
+  });
+});
+</script>
+
+<script type="text/javascript">
+	var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+	(function () {
+		var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+		s1.async = true;
+		s1.src = 'https://embed.tawk.to/647f5d80cc26a871b020fe0c/1h28oagaa';
+		s1.charset = 'UTF-8';
+		s1.setAttribute('crossorigin', '*');
+		s0.parentNode.insertBefore(s1, s0);
+	})();
+</script>

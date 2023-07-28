@@ -1,0 +1,62 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<KatShop.Models.Product>
+@{
+	Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+	int PageCurrent = ViewBag.CurrentPage;
+	int PageNext = PageCurrent + 1;
+}
+
+
+<div class="product-grid">
+	@if (Model != null && Model.Count() > 0)
+	{
+		foreach (var item in Model)
+		{
+
+			string url = $"/{item.Alias}-{item.ProductId}.html";
+			<!-- Product 2 -->
+			<div class="product-item">
+				<!-- Nội dung sản phẩm -->
+				<div class="product product_filter">
+					<div class="product_image">
+						<img src="~/images/products/@item.Thumb" alt="@item.Title">
+					</div>
+					<div class="favorite"></div>
+					@if (item.HomeFlag)
+					{
+						<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+					}
+					@if (item.BestSaller)
+					{
+						<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+					}
+
+					<div class="product_info">
+						<h6 class="product_name"><a href="@url">@item.ProductName</a></h6>
+						@if (item.Discount != null)
+						{
+							<div class="product_price">@item.Discount.Value.ToString("#,##0")<span>@item.Price.Value.ToString("#,##0") VNĐ</span></div>
+						}
+						else
+						{
+							<div class="product_price">@item.Price.Value.ToString("#,##0") VNĐ</div>
+						}
+					</div>
+				</div>
+				<div class="red_button add_to_cart_button"><a href="@url">Xem sản phẩm</a></div>
+			</div>
+
+		}
+	}
+</div>
+
+<!-- Product Sorting -->
+<div class="col-12 d-flex justify-content-center mt-5">
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+
+			<pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="" asp-controller="Product" asp-action="Index" />
+
+		</ul>
+	</nav>
+</div>

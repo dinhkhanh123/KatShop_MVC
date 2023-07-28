@@ -1,0 +1,162 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<KatShop.Models.Order>
+@{
+	int CurrentPage = ViewBag.CurrentPage;
+	ViewData["Title"] = "Danh sách đơn hàng";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	
+}
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb bg-light-lighten p-2">
+		<li class="breadcrumb-item"><a href="#"><i class="uil-home-alt"></i> Home</a></li>
+		<li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+	</ol>
+</nav>
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-body">
+				<div class="row mb-2">
+					<div class="col-xl-8">
+						<form class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">
+							@*<div class="col-auto">
+								<label for="inputPassword2" class="visually-hidden">Tìm kiếm</label>
+								<input id="keyword" name="keyword" type="text" class="form-control" placeholder="Tìm kiếm đơn hàng">
+							</div>*@
+							<div class="col-auto">
+								<div class="d-flex align-items-center">
+									<label for="status-select" class="me-2"></label>
+									<select class="form-select" id="status-select" name="status">
+										<option value="0" disabled selected>Chọn trạng thái</option>
+										@foreach (var item in ViewBag.Trangthai)
+										{
+											<option value="@item.Value">@item.Text</option>
+										}
+									</select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-xl-4">
+						<div class="text-xl-end mt-xl-0 mt-2">
+							<button type="button" class="btn btn-light mb-2">Export</button>
+						</div>
+					</div><!-- end col-->
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-centered mb-0">
+						<thead class="table-light">
+							<tr>
+
+								<th>ID</th>
+								<th>Đơn hàng</th>
+								<th>Ngày mua</th>
+								<th>Tổng tiền</th>
+								<th>Phương thức thanh toán</th>
+								<th>Trạng thái</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="records_table">
+							@if (Model != null)
+							{
+								@foreach (var item in Model)
+								{
+									<tr>
+										<td>#@item.OrderId</td>
+										<td><a href="" class="text-body fw-bold">@item.Customer.FullName</a> </td>
+										<td>@item.OrderDate.Value.ToShortDateString() <small class="text-muted">@item.OrderDate.Value.ToShortTimeString()</small></td>
+										<td>@item.TotalMoney.Value.ToString("#,##0") VNĐ</td>
+										<td>Thanh toán khi nhận hàng</td>
+										@if(item.TransactStatusId == 1){
+											<td>
+												<h5><span class="badge badge-warning-lighten">@item.TransactStatus.Status</span></h5>
+											</td>
+										}
+										else if (item.TransactStatusId == 2){
+											<td><h5><span class="badge badge-info-lighten">@item.TransactStatus.Status</span></h5></td>
+										}
+										else if (item.TransactStatusId == 3)
+										{
+											<td><h5><span class="badge badge-info-lighten">@item.TransactStatus.Status</span></h5></td>
+										}
+										else if (item.TransactStatusId == 4)
+										{
+											<td>
+												<h5><span class="badge badge-success-lighten">@item.TransactStatus.Status</span></h5>
+											</td>
+										}
+										else if (item.TransactStatusId == 5)
+										{
+											<td><h5><span class="badge badge-danger-lighten">@item.TransactStatus.Status</span></h5></td>
+										}
+										else if (item.TransactStatusId == 6)
+										{
+											<td>
+												<h5><span class="badge badge-warning-lighten">@item.TransactStatus.Status</span></h5>
+											</td>
+										}
+										
+										<td>
+
+											<a class="btn btn-success" asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@item.OrderId"><i class="mdi mdi-eye"></i></a>
+											
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="@("#ChangeStatus-"+@item.OrderId)"><i class="mdi mdi-square-edit-outline"></i></button>
+											
+											@await Html.PartialAsync("_ChangeStatusPartialView",item)
+	
+										</td>
+
+									</tr>
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</div> <!-- end card-body-->
+		</div> <!-- end card-->
+	</div> <!-- end col -->
+</div>
+<!-- end row -->
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination">
+		<pager class="page-item" list="Model" asp-area="Admin" asp-route-TransactStatusId="@ViewBag.CurrentTransactStatusID" asp-controller="Order" asp-action="Index" />
+
+	</ul>
+</nav>
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			$("#status-select").change(function () {
+				var transactStatusId = $(this).val(); // Lấy giá trị đã chọn
+
+				$.ajax({
+					url: '/Admin/Order/Filtter',
+					dataType: "json",
+					type: "GET",
+					data: {
+						TransactStatusID: transactStatusId
+					},
+					async: true,
+					success: function (results) {
+						if (results.status == "success") {
+							window.location.href = results.redirectUrl;
+						}
+					},
+					error: function (xhr) {
+						alert('error');
+					}
+				});
+			});
+		});
+
+
+</script>
+
+
+}

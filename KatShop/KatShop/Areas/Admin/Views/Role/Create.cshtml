@@ -1,0 +1,64 @@
+﻿@model KatShop.Models.Role
+
+@{
+    ViewData["Title"] = "Tạo mới";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+                <label class="form-label" asp-for="RoleName" >Tên Role</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Tên quyền truy cập" asp-for="RoleName" required>
+        <div class="valid-feedback">
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+    </div>
+
+            <div class="mb-3">
+                <label class="form-label" asp-for="Description">Mô tả</label>
+                <input type="text" class="form-control" id="validationCustom01" placeholder="Mô tả" asp-for="Description" required>
+                <div class="valid-feedback">
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <button class="btn btn-success" type="submit" value="Create">Tạo</button>
+            
+            | <a class="btn btn-light" asp-action="Index">Quay lại</a>
+</form>
+
+    
+           
+        
+
+
+
+
+      @*  <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>*@
+    </div>
+</div>
+
+
+

@@ -1,0 +1,97 @@
+﻿﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<KatShop.Models.Post>
+@{
+	ViewData["Title"] = "Bài viết";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	int PageCurrent = ViewBag.CurrentPage;
+	int PageNext = PageCurrent + 1;
+}
+
+<div class="container single_product_container">
+	<div class="row">
+		<div class="col-12">
+			<!-- Breadcrumbs -->
+			<div class="breadcrumbs d-flex flex-row align-items-center">
+				<ul>
+					<li><a asp-controller="Home" asp-action="index">Trang chủ</a></li>
+
+					<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Bài viết</a></li>
+				</ul>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<h4 class="text-uppercase " style="border-bottom: 1px solid #DDD;margin-bottom: 30px ;color: #333;">
+						<span>Tin nổi bật</span>
+					</h4>
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-12 " style="background-image:url(assets/images/fsrffegf-768x384.jpg);height:400px;background-size: cover;">
+					<div style="background:#050505;" class=" col-6 h-100  banner_item align-items-center blog_item ">
+						<h3><a class="text-white" href="#">5 MẸO CHĂM SÓC &amp; BẢO DƯỠNG ĐỒ DA THẬT ĐƠN GIẢN TẠI NHÀ</a></h3>
+						<span class="text-white">27/10/2019</span>
+						<div class="text-white">
+							Làm thế nào để sử dụng một chiếc túi xách, ví da nhiều năm vẫn còn như mới? Ngoài chất lượng của vật liệu da,... <a class="view-article" href="https://tuidathat.vn/5-meo-cham-soc-bao-duong-do-da-that-don-gian-tai-nha/"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row cols-md-12 mt-5 mb-5">
+			<div class="row">
+				<div class="col-lg-12">
+					<h4 class="text-uppercase " style="border-bottom: 1px solid #DDD;margin-bottom: 30px ;color: #333;">
+						<span>Tin mới</span>
+					</h4>
+				</div>
+			</div>
+			<div class="row row-cols-1 row-cols-md-4 g-4">
+				@if (Model != null && Model.Count() > 0)
+				{
+					foreach (var item in Model)
+					{
+						string url = $"/tin-tuc/{item.Alias}-{item.PostId}.html";
+						<div class="col">
+							<div class="card h-100">
+								<a href="@url">
+									<img height="200" width="300" class="card-img-top" src="~/images/news/@item.Thumb" alt="@item.Title">
+								</a>
+								<div class="card-body">
+									<h5 class="card-title"><a style="color:#333" href="@url">@item.Title</a></h5>
+									<span class="text-dark"><i class="fa fa-calendar-o me-2"></i> @item.CreateDate.Value.ToShortDateString()</span>
+									
+										@if (item.Scontents.Length > 110)
+										{
+										<p class="card-text">
+											@item.Scontents.Substring(0,110)...
+										</p>
+										}
+										else
+										{
+										<p>
+											@item.Scontents
+										</p>
+										}
+									
+								</div>
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>
+		<div class="col-12 d-flex justify-content-center mt-5">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+
+					<pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="" asp-controller="Blog" asp-action="Index" />
+
+				</ul>
+			</nav>
+		</div>
+	
+	</div>
+</div>
+
+

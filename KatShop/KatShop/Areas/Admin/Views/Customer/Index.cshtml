@@ -1,0 +1,123 @@
+﻿
+@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<KatShop.Models.Customer>
+
+@{
+    int currentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb bg-light-lighten p-2">
+		<li class="breadcrumb-item"><a href="#"><i class="uil-home-alt"></i> Home</a></li>
+		<li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+	</ol>
+</nav>
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="col-7">
+	<div class="row">
+		@*<div class=" col-md-4">
+		<select class="form-control" id="idrole" name="idrole" asp-items="@ViewBag.QuyenTruyCap" required>
+			<option value="0" disabled selected>Chọn quyền truy cập</option>
+		</select>
+		</div>*@
+		<div class="col-auto">
+			<label for="inputPassword2" class="visually-hidden">Tìm kiếm</label>
+			<input id="keyword" name="keyword" type="text" class="form-control" placeholder="Tìm kiếm khách hàng">
+		</div>
+
+	<div class="col-auto">
+		<select class="form-control" id="idrole" name="idrole" asp-items="@ViewBag.lsTrangThai" required>
+			<option value="0" disabled selected>Chọn trạng thái</option>
+		</select>
+	</div>
+</div>
+	
+</div>
+<table id="basic-datatable" class="table dt-responsive nowrap w-100">
+	<thead>
+		<tr>
+			<th>ID</th>
+            <th>Họ Tên</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Địa chỉ</th>
+            <th>Trạng thái</th>
+            <th></th>
+
+		</tr>
+	</thead>
+
+
+	<tbody id="records_table">
+		@if (Model != null)
+		{
+			@foreach (var item in Model)
+			{
+				<tr>
+
+                    <td>@item.CusId</td>
+                    <td>@item.FullName</td>
+                    <td>@item.Phone</td>
+                    <td>@item.Email</td>
+                    <td>@item.Address</td>
+                   	@if (item.Active)
+					{
+						<td><i class="mdi mdi-circle text-success"></i> Hoạt động</td>
+					}
+					else
+					{
+						<td><i class="mdi mdi-circle text-danger"></i> Khóa </td>
+					}
+                    <td>
+                      @* <a class="btn btn-primary disabled"  asp-area="Admin" asp-controller="Customer" asp-action="Edit" asp-route-id="@item.CusId"><i class="mdi mdi-square-edit-outline"></i></a>*@
+						<a class="btn btn-success" asp-area="Admin" asp-controller="Customer" asp-action="Details" asp-route-id="@item.CusId"><i class="mdi mdi-eye"></i></a>
+						<a class="btn btn-primary" asp-area="Admin" asp-controller="Customer" asp-action="Edit" asp-route-id="@item.CusId"><i class="mdi mdi-square-edit-outline"></i></a>
+
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteCustomer-"+item.CusId)" data-url="@Url.Action($"Delete/{item.CusId}")">
+							<i class="mdi mdi-delete"></i>
+						</button>
+						@await Html.PartialAsync("_DeleteCustomerPartialView",item)
+                    </td>
+				</tr>
+			}
+		}
+
+	</tbody>
+</table>
+
+
+<hr/>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <pager class="page-item" list="Model" asp-area="Admin" asp-controller="Customer" asp-action="Index" />
+  
+    </ul>
+</nav>
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			$("#keyword").keyup(function () {
+				var strkeyword = $('#keyword').val();
+				$.ajax({
+					url: '/Admin/Search/FindCustomer/',
+					datatype: "json",
+					type: "POST",
+					data: { keyword: strkeyword },
+					async: true,
+					success: function (results) {
+						$("#records_table").html("");
+						$("#records_table").html(results);
+					},
+					error: function (xhr) {
+						alert('error');
+					}
+				});
+			});
+		});
+	</script>
+}

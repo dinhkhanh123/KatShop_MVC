@@ -1,0 +1,72 @@
+﻿@model KatShop.Models.Account
+
+@{
+    ViewData["Title"] = "Chỉnh sửa tài khoản";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"] : @Model.FullName</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<hr />
+		<div class="row">
+			<div class="col-md-12">
+				<form asp-controller="Account" asp-action="Edit" asp-route-id="@Model.AccountId" method="post" >
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<input type="hidden" asp-for="AccountId" />
+					<input type="hidden" asp-for="Password" />
+					<input type="hidden" asp-for="Salt" />
+					<input type="hidden" asp-for="CreateDate"/>
+					<div class="mb-3 col-md-6">
+						<label asp-for="FullName" class="form-label">Họ và tên :</label>
+						<input type="text" id="simpleinput" class="form-control" asp-for="FullName">
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Phone" class="form-label">Số điện thoại:</label>
+						<input class=" form-control" asp-for="Phone" />
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Email" class="form-label">Email :</label>
+						<input type="email" class="form-control" asp-for="Email">
+					</div>
+					<div class="mb-3 col-md-6">
+						<label class="form-label" asp-for="RoleId">Quyền truy cập</label>
+						<select class="form-control" asp-for="RoleId" asp-items="@ViewBag.QuyenTruyCap" required>
+							<option value="0" disabled selected>Chọn quyền truy cập</option>
+						</select>
+					</div>
+					<div class="mb-3 col-md-6">
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" asp-for="Active">
+							<label class="form-check-label" asp-for="Active">Trạng thái</label>
+						</div>
+					</div>
+		
+
+					<div class="form-group">
+						<input type="submit" value="Lưu" class="btn btn-primary" />
+						<a class="btn btn-dark" asp-action="Index">Quay lại</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

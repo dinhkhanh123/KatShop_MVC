@@ -1,0 +1,63 @@
+﻿@model KatShop.ModelViews.MuaHangSuccessVM
+@{
+	ViewData["Title"] = "Mua hàng";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div class="container single_product_container">
+	<div class="col-12">
+		
+
+		<div class="container h-100 col-12">
+				<form>
+				<div class="row text-center d-flex justify-content-center">
+					<div class="col-sm-6 col-sm-offset-3 " style="background:#ffffff;">
+						<img src="~/assets/images/food-delivery.gif" />	
+					<h3 class="text-dark mt-2 text-uppercase">Đặt hàng thành công</h3>
+				
+					<div class="table-responsive mt-4">
+							<table class="table mb-0 ">
+								<tbody>
+									<tr>
+										<td class="col-sm-4"> <strong>Mã đơn hàng </strong> :</td>
+										<td class="col-sm-8">#@Model.DonHangID</td>
+									</tr>
+									<tr>
+										<td class="col-sm-4"> <strong>Tên khách hàng </strong> :</td>
+										<td class="col-sm-8">@Model.FullName</td>
+									</tr>
+									<tr>
+										<td class="col-sm-4"> <strong>Số điện thoại </strong> :</td>
+										<td class="col-sm-8">@Model.Phone</td>
+									</tr>
+									<tr>
+										<td class="col-sm-4"> <strong>Địa chỉ</strong> :</td>
+										<td class="col-sm-8">@Model.Address - @Model.PhuongXa - @Model.QuanHuyen - @Model.TinhThanh</td>
+									</tr>
+									</tbody>
+									</table>
+					</div>
+					
+
+					<hr />
+						Để xem chi tiết đơn hàng vui lòng truy cập vào <a asp-controller="Accounts" asp-action="Dashboard"><strong>Tài khoản cá nhân.</strong></a> Cần hỗ trợ? Liên hệ với chúng tôi : Hotline: 0977.757.596
+					<br><br>
+				</div>
+
+			</div>
+			</form>
+		</div>
+
+		<div class="container">
+		
+
+			
+		
+
+		</div>
+	</div>
+</div>
+
+
+
+

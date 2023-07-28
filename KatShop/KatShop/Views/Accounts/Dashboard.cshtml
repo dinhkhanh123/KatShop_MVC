@@ -1,0 +1,212 @@
+﻿@model KatShop.Models.Customer
+
+@{
+	ViewData["Title"] = "Dashboard";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<Order> DanhSachDonHang = ViewBag.DonHang;
+
+
+	// var total = DanhSachDonHang.Sum(x => x.TotalMoney).ToString("#,##0");
+	// KatShop.ModelViews.ChangePasswordViewModel changePassword = new KatShop.ModelViews.ChangePasswordViewModel();
+}
+
+<div class="container single_product_container">
+	<div class="row">
+		<div class="col-12">
+			<!-- Breadcrumbs -->
+			<div class="breadcrumbs d-flex flex-row align-items-center">
+				<ul>
+					<li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+					<li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>Thông tin khách hàng</a></li>
+				</ul>
+			</div>
+			<div class="container ">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="card mb-4">
+							<div class="card-body text-center">
+								@if (Model.Avatar != null)
+								{
+									<img src="~/images/customer/@Model.Avatar" class="rounded-circle img-fluid" style="width: 150px;" alt="Avatar" />
+								}
+								else
+								{
+									<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+									 class="rounded-circle img-fluid" style="width: 150px;">
+								}
+
+								<h5 class="my-3">@Model.FullName</h5>
+
+								<p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+								<div class="d-flex justify-content-center mb-2">
+									<a class="btn btn-primary" asp-controller="Accounts" asp-action="EditInfo">Chỉnh sửa thông tin </a>
+									<br />
+									<a class="btn btn-dark ml-2" href="dang-xuat.html" role="tab">Đăng xuất</a>
+
+								</div>
+							</div>
+						</div>
+						<div class="card mb-4 mb-lg-0">
+							<div class="card-body p-0">
+								<ul class="list-group list-group-flush rounded-3">
+									<li class="list-group-item d-flex justify-content-between align-items-center p-3">
+										<i class="fas fa-globe fa-lg text-warning"></i>
+										<p class="mb-0">https://mdbootstrap.com</p>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8">
+						<div class="card mb-4">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Tên khách hàng :</p>
+									</div>
+									<div class="col-sm-9">
+										<p class="text-muted mb-0">@Model.FullName</p>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Email :</p>
+									</div>
+									<div class="col-sm-9">
+										<p class="text-muted mb-0">@Model.Email</p>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Số điện thoại</p>
+									</div>
+									<div class="col-sm-9">
+										<p class="text-muted mb-0">@Model.Phone</p>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Ngày sinh :</p>
+									</div>
+									<div class="col-sm-9">
+										@if(@Model.Birthday!= null){
+											<p class="text-muted mb-0">@Model.Birthday.Value.ToShortDateString()</p>
+										}
+										
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-sm-3">
+										<p class="mb-0">Địa chỉ :</p>
+									</div>
+									<div class="col-sm-9">
+									
+											<p class="text-muted mb-0">@Model.Address - @Model.Ward - @Model.District - @Model.CodeProvince</p>
+								
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+
+							<div class="col-md-12">
+								<div class="card mb-4 mb-md-0">
+									<div class="card-body">
+										<h4 class="small-title">DANH SÁCH ĐƠN HÀNG</h4>
+										@if (DanhSachDonHang != null && DanhSachDonHang.Count() > 0)
+										{
+											<div class="table-responsive">
+												<table class="table table-bordered table-hover">
+													<tbody>
+														<tr>
+															<th>ID</th>
+															<th>Ngày mua hàng</th>
+															<th>Ngày ship hàng</th>
+															<th>Trạng thái</th>
+														</tr>
+														@foreach (var item in DanhSachDonHang)
+														{
+															<tr>
+																<td><a class="account-order-id" href="javascript:void(0)">#@item.OrderId</a></td>
+																<td>@item.OrderDate.Value.ToShortDateString()</td>
+																<td>@item.ShipDate</td>
+																<td>@item.TransactStatus.Status</td>
+																<td>
+																	<a href="javascript:void(0)" class="xemdonhang" data-madonhang="@item.OrderId">Xem đơn hàng</a>
+																</td>
+															</tr>
+														}
+
+													</tbody>
+												</table>
+												<br />												
+												<hr />
+												<div id="records_table">
+												</div>
+											</div>
+										}
+										else
+										{
+											<div class="table-responsive">
+												<table class="table table-bordered table-hover">
+													<tbody>
+														<tr>
+															<th>ID</th>
+															<th>Ngày mua hàng</th>
+															<th>Ngày ship hàng</th>
+															<th>Trạng thái</th>
+														</tr>
+
+														<tr class="text-center">
+														<th colspan="4">Không có đơn hàng nào</th>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										}
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			$(".xemdonhang").click(function () {
+				var madonhang = $(this).attr("data-madonhang")
+				$.ajax({
+					url: '/DonHang/Details',
+					datatype: "json",
+					type: "POST",
+					data: { id: madonhang },
+					async: true,
+					success: function (results) {
+						$("#records_table").html("");
+						$("#records_table").html(results);
+					},
+					error: function (xhr) {
+						alert('Lỗi tải đơn hàng');
+					}
+				});
+			});
+		});
+
+	
+
+	</script>
+}

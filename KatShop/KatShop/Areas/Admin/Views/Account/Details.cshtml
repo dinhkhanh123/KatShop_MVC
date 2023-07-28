@@ -1,0 +1,82 @@
+﻿@model KatShop.Models.Account
+
+@{
+    ViewData["Title"] = "Chi tiết";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"]</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<hr />
+
+		<div class="table-responsive ">
+			<table class="table mb-0 ">
+				<tbody>
+					<tr>
+						<td> <strong>ID </strong> :</td>
+						<td>@Model.AccountId</td>
+					</tr>
+					<tr>
+						<td><strong>Họ và tên </strong> :</td>
+						<td>@Model.FullName</td>
+					</tr>
+					<tr>
+						<td><strong>Số điện thoại </strong> : </td>
+						<td>@Model.Phone</td>
+					</tr>
+					<tr>
+						<td><strong>Email </strong> : </td>
+						<td>@Model.Email</td>
+					</tr>		
+					
+					<tr>
+						<td><strong>Lần hoạt động cuối  </strong> : </td>
+						<td>@Model.LastLogin</td>
+					</tr>
+					
+				
+					<tr>
+						<td><strong>Trạng thái </strong> : </td>
+						<td>
+							@if (Model.Active)
+							{
+								<div class="form-check form-check-inline">
+									<input type="checkbox" class="form-check-input" id="customCheck5" checked disabled>
+									<label class="form-check-label" for="customCheck5"></label>
+								</div>
+							}
+							else
+							{
+								<div class="form-check form-check-inline">
+									<input type="checkbox" class="form-check-input" id="customCheck6" disabled>
+									<label class="form-check-label" for="customCheck6"></label>
+								</div>
+							}
+						</td>
+					</tr>
+				
+				</tbody>
+			</table>
+			<a class="btn btn-light mt-2" asp-action="Index">Quay lại</a>
+		</div>
+
+	</div>
+
+</div>

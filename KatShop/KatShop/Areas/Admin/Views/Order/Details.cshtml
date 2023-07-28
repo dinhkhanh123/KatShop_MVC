@@ -1,0 +1,137 @@
+﻿@model KatShop.Models.Order
+
+@{
+	ViewData["Title"] = "Thông tin đơn hàng #" + Model.OrderId;
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	List<OrderDetail> details = ViewBag.ChiTiet;
+	var totalProduct = details.Sum(x => x.Price.Value * x.Amount);
+
+}
+
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				
+				<div class="page-title-box">
+					
+						
+				
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+						
+					</div>
+					
+					
+						
+					<h5 class="page-title"><a asp-action="Index"><i class="mdi mdi-undo-variant"></i> Quay lại</a></h5>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<hr />
+
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="header-title mb-3">ĐƠN HÀNG #@Model.OrderId</h4>
+
+						<div class="table-responsive">
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>Sản phẩm</th>
+										<th>Số lượng</th>
+										<th>Giá</th>
+										<th>Tổng</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in details)
+									{
+										<tr>
+											<td>@item.Product.ProductName</td>
+											<td>@item.Amount</td>
+											<td>@item.Price.Value.ToString("#,##0") đ</td>
+											@{
+												var total = item.Price.Value * item.Amount;
+											}
+											<td>@total.Value.ToString("#,##0") đ</td>
+										</tr>
+									}
+
+
+
+								</tbody>
+							</table>
+						</div>
+						<!-- end table-responsive -->
+
+					</div>
+				</div>
+			</div> <!-- end col -->
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="header-title mb-3">Tổng đơn hàng</h4>
+
+						<div class="table-responsive">
+							<table class="table mb-0">
+								<thead class="table-light">
+									<tr>
+										<th>Tên</th>
+										<th>Giá</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Tổng sản phẩm :</td>
+										<td>@totalProduct.Value.ToString("#,##0") đ</td>
+									</tr>
+									<tr>
+										<td>Phí vận chuyển :</td>
+										<td>0đ</td>
+									</tr>
+									<tr>
+										<td>Giảm giá : </td>
+										<td>- @if (ViewBag.Discount != null) { @ViewBag.Discount
+											}
+											else { @(ViewBag.Discount = 0)  }
+											%</td>
+									</tr>
+									<tr>
+										<th>Tổng hóa đơn :</th>
+										<th>@Model.TotalMoney.Value.ToString("#,##0") đ</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- end table-responsive -->
+
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<h4 class="header-title mb-3">Thông tin người nhận</h4>
+						<h5>Người nhận : @Model.Customer.FullName</h5>
+						<address class="mb-0 font-14 address-lg">
+							Địa chỉ :    @Model.Customer.Address, @Model.Customer.CodeProvince<br />
+							<abbr>SĐT :</abbr> @Model.Customer.Phone<br>
+							<abbr>Ngày đặt hàng :</abbr> @Model.OrderDate.Value.ToShortDateString() <small>@Model.OrderDate.Value.ToShortTimeString()</small>
+						</address>
+
+					</div>
+				</div>
+			</div>
+
+		</div>	
+	</div>
+</div>
+

@@ -1,0 +1,198 @@
+﻿<!-- LOGO -->
+<a href="/" class="logo text-center  logo-dark">
+    <span class="logo-lg">
+        <img class="m-2 mb-2" src="~/admin_assets/images/logo-kat.png" alt="" height="60">
+    </span>
+   
+</a>
+
+<!-- LOGO -->
+<a asp-area="Admin" asp-controller="Home" asp-action="Index" target="_blank" class="logo text-center logo-light">
+    <span class="logo-lg">
+        <img class="m-2 mb-2" src="~/admin_assets/images/logo-kat.png" alt="" height="60">
+    </span>
+</a>
+<div class="h-100" id="leftside-menu-container" data-simplebar="">
+
+    <!--- Sidemenu -->
+    <ul class="side-nav">
+
+        <li class="side-nav-title side-nav-item">Navigation</li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" asp-area="Admin" asp-controller="Home" asp-action="Index" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                <i class="uil-home-alt"></i>
+                <span class="badge bg-success float-end">4</span>
+                <span> Dashboards </span>
+            </a>
+           
+        </li>
+
+        <li class="side-nav-title side-nav-item">Quản lý</li>
+
+        <!--order-->
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                <i class="uil-store"></i>
+                <span> Quản lý đơn hàng</span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarEcommerce">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Order" asp-action="Index">Đơn hàng</a>
+                    </li>
+                 
+                </ul>
+            </div>
+        </li>
+        <!--product-->
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+                <i class="uil-clipboard-alt"></i>
+                <span> Quản lý sản phẩm </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarEmail">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index">Danh sách sản phẩm</a>
+                    </li>
+                  
+                </ul>
+            </div>
+        </li>
+        <!--customer-->
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarTasks1" aria-expanded="false" aria-controls="sidebarTasks1" class="side-nav-link">
+                <i class="uil-clipboard-alt"></i>
+                <span> Quản lý khách hàng </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarTasks1">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Customer" asp-action="Index">Danh sách khách hàng </a>
+                    </li>
+                 
+                    
+                </ul>
+            </div>
+        </li>
+
+        <!--system-->
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarTasks" aria-expanded="false" aria-controls="sidebarTasks" class="side-nav-link">
+                <i class="uil-clipboard-alt"></i>
+                <span> Quản lý hệ thống </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarTasks">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Index">Quản lý danh mục </a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Account" asp-action="Index">Quản lý tài khoản </a>
+                    </li>                  
+                    <li>
+                        <a asp-area="Admin" asp-controller="Role" asp-action="Index">Quản lý quyền truy cập </a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Discount" asp-action="Index">Quản lý khuyến mãi </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <!--sales-->
+    @*    <li class="side-nav-item">
+            <a asp-area="Admin" asp-controller="" asp-action="Index" class="side-nav-link">
+                <i class="uil-rss"></i>
+                <span> Quản lý doanh số </span>
+            </a>
+        </li>*@
+      @*  <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarEmail1" aria-expanded="false" aria-controls="sidebarEmail1" class="side-nav-link">
+                <i class="uil-envelope"></i>
+                <span> Doanh số </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarEmail1">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="apps-email-inbox.html">Inbox</a>
+                    </li>
+                    <li>
+                        <a href="apps-email-read.html">Read Email</a>
+                    </li>
+                </ul>
+            </div>
+        </li>*@
+
+        <!--news-->
+        <li class="side-nav-item">
+            <a asp-area="Admin" asp-controller="Post" asp-action="Index" class="side-nav-link">
+                <i class="uil-rss"></i>
+                <span> Quản lý tin tức </span>
+            </a>
+        </li>
+
+    @*    <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
+                <i class="uil-briefcase"></i>
+                <span> Quản lý tin tức </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarProjects">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a asp-area="Admin" asp-controller="Post" asp-action="Index">Danh sách tin đăng</a>
+                    </li>
+                    <li>
+                        <a href="#">#</a>
+                    </li>
+                   
+                </ul>
+            </div>
+        </li>*@
+
+       <!--pages-->
+        <li class="side-nav-item">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="side-nav-link">
+                <i class="uil-rss"></i>
+                <span> Quản lý Pages </span>
+            </a>
+        </li>
+
+        <!--shiper-->
+    @*    <li class="side-nav-item">
+            <a href="apps-file-manager.html" class="side-nav-link">
+                <i class="uil-folder-plus"></i>
+                <span> Quản lý Shipper </span>
+            </a>
+        </li>
+*@
+       
+
+       
+
+       
+    </ul>
+
+    <!-- Help Box -->
+    <div class="help-box text-white text-center">
+        <a href="javascript: void(0);" class="float-end close-btn text-white">
+            <i class="mdi mdi-close"></i>
+        </a>
+        <img src="~/admin_assets/images/help-icon.svg" height="90" alt="Helper Icon Image">
+        <h5 class="mt-3">Unlimited Access</h5>
+        <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
+        <a href="javascript: void(0);" class="btn btn-outline-light btn-sm">Upgrade</a>
+    </div>
+    <!-- end Help Box -->
+    <!-- End Sidebar -->
+
+    <div class="clearfix"></div>
+
+</div>

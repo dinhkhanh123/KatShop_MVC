@@ -1,0 +1,96 @@
+﻿@using PagedList.Core.Mvc
+@using System.Globalization
+@model PagedList.Core.IPagedList<KatShop.Models.Post>
+
+@{
+    int currentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Trang bài dăng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+	
+}
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"]</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<div>
+			<div class="col-sm-4">
+				<a class="btn btn-primary mb-2" asp-area="Admin" asp-controller="Post" asp-action="Create"><i class="mdi mdi-plus-circle me-2"></i> Tạo bài đăng</a>
+			</div>
+
+		</div>
+		<hr />
+		<table class="table table-centered mb-0">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Tên bài đăng</th>
+					<th>Ngày đăng</th>
+					<th>Trạng thái</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (Model != null)
+				{
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>@item.PostId</td>
+							<td>@item.Title</td>			
+							<td>@item.CreateDate.Value.ToShortDateString()</td>			
+							@if (item.Published == true)
+							{
+								<td>
+									<i class="mdi mdi-circle text-success"></i> Mở
+								</td>
+							}
+							else
+							{
+								<td>
+									<i class="mdi mdi-circle text-danger"></i>Đóng
+								</td>
+
+							}
+
+
+							<td>
+								<a class="btn btn-primary" asp-area="Admin" asp-controller="Post" asp-action="Edit" asp-route-id="@item.PostId"><i class="mdi mdi-square-edit-outline"></i></a>
+								<a class="btn btn-success" asp-area="Admin" asp-controller="Post" asp-action="Details" asp-route-id="@item.PostId"><i class="mdi mdi-eye"></i></a>
+								
+								<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deletePost-"+item.PostId)" data-url="@Url.Action($"Delete/{item.PostId}")">
+									<i class="mdi mdi-delete"></i>
+								</button>
+								@await Html.PartialAsync("_DeletePostPartialView",item)
+							</td>
+						</tr>
+					}
+				}
+
+
+			</tbody>
+		</table>
+	</div>
+</div>
+<nav aria-label="Page navigation example">
+	<ul class="pagination">
+		<pager class="page-item" list="Model" asp-area="Admin" asp-controller="Post" asp-action="Index" />
+
+	</ul>
+</nav>
+
+

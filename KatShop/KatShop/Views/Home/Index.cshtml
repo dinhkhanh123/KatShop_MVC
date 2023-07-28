@@ -1,0 +1,302 @@
+﻿@model KatShop.ModelViews.HomeViewVM
+@{
+	ViewData["Title"] = "KAT - since 2009 | Thương hiệu túi ví và phụ kiện chuẩn da thật";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<Product> newProduct = ViewBag.NewProduct;
+	List<Product> allProduct = ViewBag.AllProduct;
+}
+
+
+<!-- Slider -->
+
+<div class="main_slider" style="background-image:url(~/assets/images/slider_1.jpg)">
+	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img style="height:600px;" class="d-block w-100 " src="~/assets/images/kat-cover-1.jpg" alt="First slide">
+			</div>
+			<div class="carousel-item">
+				<img style="height:600px;" class="d-block w-100 " src="~/assets/images/kat-cover-2.jpg" alt="Second slide">
+			</div>
+			<div class="carousel-item">
+				<img style="height:600px;" class="d-block w-100" src="~/assets/images/kat-cover-3.jpg" alt="Third slide">
+			</div>
+		</div>
+	</div>
+	@*	<div class="container fill_height">
+	<div class="row align-items-center fill_height">
+	<div class="col">
+	<div class="main_slider_content">
+	<h6>Spring / Summer Collection 2017</h6>
+	<h1>Get up to 30% Off New Arrivals</h1>
+	<div class="red_button shop_now_button"><a href="#">shop now</a></div>
+	</div>
+	</div>
+	</div>
+	</div>*@
+</div>
+
+<!-- Banner -->
+
+<div class="banner">
+	<div class="container">
+		<div class="row">
+			@if (Model.Categories != null && Model.Categories.Count > 0)
+			{
+				@foreach (var item in Model.Categories)
+				{
+					string url = $"danhmuc/{item.Alias}";
+					<div class="col-md-3 ">
+						<div class="banner_item align-items-center blog_item" style="background-image:url(/images/category/@item.Thumb)">
+							<div class="banner_category blog_content d-flex flex-column align-items-center justify-content-center text-center text-uppercase">
+								<a href="@url">@item.CatName</a>
+							</div>
+
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+</div>
+
+<!-- New Arrivals -->
+
+<div class="new_arrivals">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="section_title new_arrivals_title">
+					<h2>GỢI Ý DÀNH CHO BẠN</h2>
+					<h5>Những sản phẩm mới nhất</h5>
+				</div>
+			</div>
+		</div>
+		<div class="row align-items-center">
+			<div class="col text-center">
+				<div class="new_arrivals_sorting">
+					<ul class="arrivals_grid_sorting clearfix button-group filters-button-group">
+						<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">Tất cả</li>
+						@foreach (var item in Model.Products)
+						{
+							<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".@item.category.CatId">@item.category.CatName</li>
+						}
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+		<div class="row d-flex align-content-center align-items-center">
+			<div class="col text-center">
+				<div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'>
+					@await Html.PartialAsync("_ListProductPartialView", allProduct)
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+<!-- Deal of the week -->
+
+<div style="background-color:white;" class="deal_ofthe_week">
+	<div class="container">
+		<div class="col-12">
+			<div class="video__inner">
+				<div class="">
+					<video id="vid" width="1160" height="680" loop="" autoplay="" muted="" controls="" playsinline="">
+						<source src="https://tuidathat.vn/wp-content/uploads/2021/09/Kat_2021bst.mp4" type="video/mp4">
+					</video>
+				</div>
+			</div>
+		</div>
+		@*<div class="row align-items-center">
+		<div class="col-lg-6">
+		<div class="deal_ofthe_week_img">
+		<img src="images/deal_ofthe_week.png" alt="">
+		</div>
+		</div>
+		<div class="col-lg-6 text-right deal_ofthe_week_col">
+		<div class="deal_ofthe_week_content d-flex flex-column align-items-center float-right">
+		<div class="section_title">
+		<h2>Deal Of The Week</h2>
+		</div>
+		<ul class="timer">
+		<li class="d-inline-flex flex-column justify-content-center align-items-center">
+		<div id="day" class="timer_num">03</div>
+		<div class="timer_unit">Day</div>
+		</li>
+		<li class="d-inline-flex flex-column justify-content-center align-items-center">
+		<div id="hour" class="timer_num">15</div>
+		<div class="timer_unit">Hours</div>
+		</li>
+		<li class="d-inline-flex flex-column justify-content-center align-items-center">
+		<div id="minute" class="timer_num">45</div>
+		<div class="timer_unit">Mins</div>
+		</li>
+		<li class="d-inline-flex flex-column justify-content-center align-items-center">
+		<div id="second" class="timer_num">23</div>
+		<div class="timer_unit">Sec</div>
+		</li>
+		</ul>
+		<div class="red_button deal_ofthe_week_button"><a href="#">shop now</a></div>
+		</div>
+		</div>
+		</div>*@
+	</div>
+</div>
+
+<!-- Best Sellers -->
+
+<div class="best_sellers">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="section_title new_arrivals_title">
+					<h2>SẢN PHẨM BÁN CHẠY NHẤT</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="product_slider_container">
+					<div class="owl-carousel owl-theme product_slider">
+
+						@if (newProduct != null && newProduct.Count > 0)
+						{
+							@foreach (var item in newProduct)
+							{
+								<!-- Slide 1 -->
+								string url = $"/{item.Alias}-{item.ProductId}.html";
+								<div class="owl-item product_slider_item">
+									<div class="product-item">
+										<div class="product discount">
+											<div class="product_image">
+												<img height="220" src="~/images/products/@item.Thumb" alt="@item.Title">
+											</div>
+											@if (item.HomeFlag)
+											{
+												<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+											}
+											@if (item.Discount != null)
+											{
+												<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+											}
+											<div class="product_info">
+												<h6 class="product_name"><a href="@url">@item.Title</a></h6>
+												@if (item.Discount != null)
+												{
+													<div class="product_price">@item.Discount.Value.ToString("#,##0")<span>@item.Price.Value.ToString("#,##0") VNĐ</span></div>
+												}
+												else
+												{
+													<div class="product_price">@item.Price.Value.ToString("#,##0") VNĐ</div>
+												}
+
+											</div>
+										</div>
+									</div>
+								</div>
+							}
+						}
+
+
+
+
+					</div>
+
+					<!-- Slider Navigation -->
+
+					<div class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+						<i class="fa fa-chevron-left" aria-hidden="true"></i>
+					</div>
+					<div class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+						<i class="fa fa-chevron-right" aria-hidden="true"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Benefit -->
+
+<div class="benefit">
+	<div class="container">
+		<div class="row benefit_row">
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-truck" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>miễn phí giao hàng</h6>
+						<p>Giao hàng trên toàn quốc</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-money" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>Ship cod</h6>
+						<p>Ship cod toàn quốc</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-undo" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>Giao hàng nhanh</h6>
+						<p>Nhận hàng trong vòng 2-3 ngày</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 benefit_col">
+				<div class="benefit_item d-flex flex-row align-items-center">
+					<div class="benefit_icon"><i class="fa fa-clock-o" aria-hidden="true"></i></div>
+					<div class="benefit_content">
+						<h6>Mở cửa hàng tuần</h6>
+						<p>8AM - 10PM</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Blogs -->
+
+<div class="blogs">
+	<div class="container">
+		<div class="row">
+			<div class="col text-center">
+				<div class="section_title">
+					<h2>Bài viết mới</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row blogs_container">
+			@if (Model.Posts != null && Model.Posts.Count > 0)
+			{
+				@foreach (var item in Model.Posts)
+				{
+					string url = $"/tin-tuc/{item.Alias}-{item.PostId}.html";
+					<div class="col-lg-4 blog_item_col">
+						<div class="blog_item">
+							<div class="blog_background" style="background-image:url(/images/news/@item.Thumb)"></div>
+							<div class="blog_content d-flex flex-column align-items-center justify-content-center text-center">
+								<h4 class="blog_title">@item.Title</h4>
+								<span class="blog_meta">by @item.Author | @item.CreateDate.Value.ToShortDateString()</span>
+								<a class="blog_more" href="@url">Đọc thêm</a>
+							</div>
+						</div>
+					</div>
+				}
+			}
+
+
+		</div>
+	</div>
+</div>
+
+

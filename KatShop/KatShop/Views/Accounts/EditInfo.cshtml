@@ -1,0 +1,207 @@
+﻿@model KatShop.ModelViews.EditInfoVM
+
+@{
+	ViewData["Title"] = "Chỉnh sửa thông tin";
+
+}
+
+<div class="container single_product_container">
+	<div class="row">
+		<div class="col-12">
+			<!-- Breadcrumbs -->
+			<div class="breadcrumbs d-flex flex-row align-items-center">
+				<ul>
+					<li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+					<li><a asp-controller="Accounts" asp-action="Dashboard"><i class="fa fa-angle-right"></i>Thông tin khách hàng</a></li>
+					<li class="active"><a href="~/assets/#"><i class="fa fa-angle-right" aria-hidden="true"></i>Chỉnh sửa thông tin</a></li>
+				</ul>
+			</div>
+			<div class="container ">
+				<div class="row d-flex justify-content-center">
+
+					<div class="col-lg-8">
+						<div class="card mb-4">
+							<div class="card-body">
+								<form asp-controller="Accounts" asp-action="EditAccount" method="post" enctype="multipart/form-data">
+									<input type="hidden" asp-for="CusId" />
+									<input type="hidden" asp-for="Avatar" />
+									
+									<div class="card-body text-center">
+										@if (Model.Avatar != null)
+										{
+										
+											<img src="~/images/customer/@Model.Avatar" class="rounded-circle img-fluid" style="width: 150px;" alt="Avatar" />
+										}
+										else
+										{
+											<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+											 class="rounded-circle img-fluid" style="width: 150px;">
+										}
+										<div class="d-flex justify-content-center">
+
+											<input type="file" asp-for="Avatar" name="fThumb" class="form-control mt-3 col-6" />
+
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label asp-for="FullName">Họ và tên :</label>
+										<input type="text" class="form-control" asp-for="FullName" value="@Model.FullName">
+										<span asp-validation-for="FullName" class="text-danger"></span>
+									</div>
+									<div class="form-group">
+										<label asp-for="Email">Email :</label>
+										<input type="email" asp-for="Email" value="@Model.Email" class="form-control">
+									</div>
+									<div class="form-group">
+										<label asp-for="Phone">Số điện thoại :</label>
+										<input type="number" asp-for="Phone" value="@Model.Phone" class="form-control">
+									</div>
+									<div class="form-group">
+										<label asp-for="BirthDay">Ngày sinh :</label>
+										<input type="date" asp-for="BirthDay" class="form-control">
+									</div>
+									<div class="form-group">
+										<label asp-for="Address">Địa chỉ :</label>
+										<input type="text" asp-for="Address" value="@Model.Address" class="form-control" id="exampleInputPassword1">
+									</div>
+									<div class="row col-12 ">
+										<div class="col-4">
+											<label class="form-label">Tỉnh/Thành<span class="text-danger">*</span></label><br />
+											<select id="TinhThanh" asp-for="TinhThanh" class="myniceselect nice-select wide" data-toggle="select2" title="TinhThanh" required>
+												<option value="0" disabled selected>Tỉnh/Thành</option>
+												@foreach (var item in ViewBag.lsTinhThanh)
+												{
+													<option value="@item.Value">@item.Text</option>
+												}
+											</select>
+										</div>
+										<div class="col-4">
+											<label class="form-label">Quận/Huyện<span class="text-danger">*</span></label>
+											<select id="QuanHuyen" asp-for="QuanHuyen" class="myniceselect wide" data-toggle="select2" title="QuanHuyen" required>
+												<option value="0" disabled selected>Quận/Huyện</option>
+											</select>
+										</div>
+										<div class="col-4">
+											<label class="form-label">Phường/Xã<span class="text-danger">*</span></label> <br />
+											<select id="PhuongXa" asp-for="PhuongXa" class="myniceselect wide" data-toggle="select2" title="PhuongXa" required>
+												<option value="0" disabled selected>Phường/Xã</option>
+											</select>
+										</div>
+									</div>
+								
+											
+
+										
+
+
+									
+										
+							
+
+									<div class="card-footer mb-2 mt-5 d-flex justify-content-center">
+										<button type="submit" class="btn btn-primary">Lưu thông tin</button>
+									</div>
+									
+								</form>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+		$(document).ready(function () {
+			$('#TinhThanh').change(function () {
+				var selectedProvinceCode = $(this).val();
+				if (selectedProvinceCode) {
+					$.ajax({
+						url: '/Location/QuanHuyenList',
+						type: 'GET',
+						data: { CodeProvice: selectedProvinceCode },
+						success: function (data) {
+							$('#QuanHuyen').empty();
+							$('#QuanHuyen').append('<option value="0" disabled selected>Quận/Huyện</option>');
+							$.each(data, function (index, item) {
+								$('#QuanHuyen').append('<option value="' + item.code + '">' + item.name + '</option>');
+							});
+							$('#PhuongXa').empty();
+							$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+						}
+					});
+				} else {
+					$('#QuanHuyen').empty();
+					$('#QuanHuyen').append('<option value="0" disabled selected>Quận/Huyện</option>');
+					$('#PhuongXa').empty();
+					$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+				}
+			});
+
+			$('#QuanHuyen').change(function () {
+				var selectedDistrictCode = $(this).val();
+				if (selectedDistrictCode) {
+					$.ajax({
+						url: '/Location/PhuongXaList',
+						type: 'GET',
+						data: { CodeDistrict: selectedDistrictCode },
+						success: function (data) {
+							$('#PhuongXa').empty();
+							$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+							$.each(data, function (index, item) {
+								$('#PhuongXa').append('<option value="' + item.code + '">' + item.name + '</option>');
+							});
+						}
+					});
+				} else {
+					$('#PhuongXa').empty();
+					$('#PhuongXa').append('<option value="0" disabled selected>Phường/Xã</option>');
+				}
+			});
+		});
+
+
+		$(document).ready(function () {
+			// Thêm sự kiện onchange cho thẻ TinhThanh
+			$('#TinhThanh').change(function () {
+				var selectedValue = $(this).val();
+
+				if (selectedValue === '0') {
+					alert('Vui lòng chọn một giá trị');
+					$(this).val('');
+					$('#QuanHuyen').val('');
+					$('#PhuongXa').val('');
+				}
+			});
+
+			// Thêm sự kiện onchange cho thẻ QuanHuyen
+			$('#QuanHuyen').change(function () {
+				var selectedValue = $(this).val();
+
+				if (selectedValue === '0') {
+					alert('Vui lòng chọn một giá trị');
+					$(this).val('');
+					$('#PhuongXa').val('');
+				}
+			});
+
+			// Thêm sự kiện onchange cho thẻ PhuongXa
+			$('#PhuongXa').change(function () {
+				var selectedValue = $(this).val();
+
+				if (selectedValue === '0') {
+					alert('Vui lòng chọn một giá trị');
+					$(this).val('');
+				}
+			});
+		});
+	</script>
+
+
+}
+

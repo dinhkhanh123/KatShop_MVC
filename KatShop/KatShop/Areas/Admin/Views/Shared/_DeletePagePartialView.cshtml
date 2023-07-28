@@ -1,0 +1,25 @@
+﻿@model KatShop.Models.Page
+
+<!-- Modal delete page-->
+<div class="modal fade" id="deletePage-@Model.PageId" tabindex="-1" aria-labelledby="deletePageLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form asp-controller="Page" asp-action="Delete" asp-route-id="@Model.PageId">
+                <div class="modal-header modal-colored-header bg-danger">
+                    <h5 class="modal-title" id="deletePageLabel">Xóa trang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="PageId" />
+                    <h4>Bạn có chắc chắn xóa sản phẩm : @Model.PageName</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <input type="submit" class="btn btn-danger" value="Xóa" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

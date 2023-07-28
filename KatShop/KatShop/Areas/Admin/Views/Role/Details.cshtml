@@ -1,0 +1,35 @@
+﻿@model KatShop.Models.Role
+
+@{
+    ViewData["Title"] = "Thông tin quyền truy cập";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="table-responsive col-6">
+    <table class="table mb-0">
+       
+        <tbody>
+            <tr>
+                <td> <strong>ID</strong> :</td>
+                <td>@Model.RoleId</td>
+            </tr>
+            <tr>
+                <td><strong>Tên</strong> :</td>
+                <td>@Model.RoleName</td>
+            </tr>
+            <tr>
+                <td><strong>Mô tả</strong> : </td>
+                <td>@Model.Description</td>
+            </tr>
+           
+                
+           
+           
+        </tbody>
+    </table>
+    <hr />
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.RoleId">Chỉnh sửa</a>
+    <a class="btn btn-light" asp-action="Index">Quay lại</a>
+</div>
+

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<KatShop.Models.Account>
+
+@{
+	ViewData["Title"] = "Danh sách tài khoản quản trị";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb bg-light-lighten p-2">
+		<li class="breadcrumb-item"><a href="#"><i class="uil-home-alt"></i> Home</a></li>
+		<li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+	</ol>
+</nav>
+<h1>@ViewData["Title"]</h1>
+<p>
+	<a class="btn btn-primary" asp-action="Create">Tạo tài khoản quản lý </a>
+</p>
+<hr />
+<div class="col-7">
+	<div class="row">
+		<div class=" col-md-4">
+		<select class="form-control" id="idrole" name="idrole" asp-items="@ViewBag.QuyenTruyCap" required>
+			<option value="0" disabled selected>Chọn quyền truy cập</option>
+		</select>
+	</div>
+
+	<div class=" col-md-3">
+		<select class="form-control" id="idrole" name="idrole" asp-items="@ViewBag.lsTrangThai" required>
+			<option value="0" disabled selected>Chọn trạng thái</option>
+		</select>
+	</div>
+	</div>
+	
+</div>
+<table id="basic-datatable" class="table dt-responsive nowrap w-100">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Họ và tên</th>
+			<th>Email</th>
+			<th>Điện thoại</th>
+			<th>Lần đăng nhập cuối</th>
+			<th>Quyền truy cập</th>
+			<th>Trạng thái</th>
+			<th></th>
+
+		</tr>
+	</thead>
+
+
+	<tbody>
+		@if (Model != null)
+		{
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.AccountId</td>
+					<td>@item.FullName</td>
+					<td>@item.Email</td>
+					<td>@item.Phone</td>
+					<td>@item.LastLogin</td>
+					<td>@item.Role.Description</td>
+					@if (item.Active)
+					{
+						<td><i class="mdi mdi-circle text-success"></i> Hoạt động</td>
+					}
+					else
+					{
+						<td><i class="mdi mdi-circle text-danger"></i> Khóa </td>
+					}
+
+					<td>
+
+
+
+						<a class="btn btn-primary" asp-area="Admin" asp-controller="Account" asp-action="Edit" asp-route-id="@item.AccountId"><i class="mdi mdi-square-edit-outline"></i></a>
+						<a class="btn btn-success" asp-area="Admin" asp-controller="Account" asp-action="Details" asp-route-id="@item.AccountId"><i class="mdi mdi-eye"></i></a>
+
+						<!-- Button trigger modal -->
+						<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@("#deleteAccount-"+item.AccountId)" data-url="@Url.Action($"Delete/{item.AccountId}")">
+							<i class="mdi mdi-delete"></i>
+						</button>
+						@await Html.PartialAsync("_DeleteAccountPartialView",item)
+					</td>
+
+				</tr>
+			}
+		}
+
+	</tbody>
+</table>

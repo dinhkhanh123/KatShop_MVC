@@ -1,0 +1,41 @@
+﻿@model List<Product>
+@if (Model != null && Model.Count() > 0)
+{
+	<div class="product-item-wrap ">
+	@foreach (var item in Model)
+	{
+			string url = $"/{item.Alias}-{item.ProductId}.html";
+			<div class="product-item @item.CatId">
+				<div class="product discount product_filter">
+					<div class="product_image">
+						<img height="250" src="~/images/products/@item.Thumb" alt="@item.Title">
+					</div>
+					@if (item.HomeFlag)
+					{
+						<div class="product_bubble product_bubble_left product_bubble_green d-flex flex-column align-items-center"><span>new</span></div>
+					}
+					@if (item.Discount != null)
+					{
+						<div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+					}
+					<div class="product_info">
+						<h6 class="product_name"><a href="@url">@item.Title</a></h6>
+						@if (item.Discount != null)
+						{
+							<div class="product_price">@item.Discount.Value.ToString("#,##0")<span>@item.Price.Value.ToString("#,##0") VNĐ</span></div>
+						}
+						else
+						{
+							<div class="product_price">@item.Price.Value.ToString("#,##0") VNĐ</div>
+						}
+
+					</div>
+
+				
+					
+				</div>
+				</div>
+	}
+
+	</div>
+}

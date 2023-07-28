@@ -1,0 +1,94 @@
+﻿@model KatShop.Models.Customer
+
+@{
+    ViewData["Title"] = "Sửa thông tin";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<hr />
+<div class="content">
+	<!-- Start Content-->
+	<div class="container-fluid">
+		<!-- start page title -->
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<div class="page-title-right">
+						<ol class="breadcrumb m-0">
+							<li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
+
+							<li class="breadcrumb-item active">@ViewData["Title"]</li>
+						</ol>
+					</div>
+					<h2 class="page-title">@ViewData["Title"]</h2>
+				</div>
+			</div>
+		</div>
+		<!-- end page title -->
+		<hr />
+		<div class="row">
+			<div class="col-md-12">
+				<form asp-controller="Customer" asp-action="Edit" asp-route-id="@Model.CusId" method="post" >
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<input type="hidden" asp-for="CusId" readonly />
+					<input type="hidden" asp-for="Avatar" readonly />
+					<input type="hidden" asp-for="LocaId" readonly />
+					<input asp-for="Password" type="hidden" readonly />
+					<input asp-for="Salt" type="hidden" readonly />
+					<input asp-for="District" type="hidden" readonly />
+					<input asp-for="Ward" type="hidden" readonly />
+					<input asp-for="CodeProvince" type="hidden" readonly />
+				
+					<div class="mb-3 col-md-6">
+                        <label asp-for="FullName" class="form-label">Tên khách hàng :</label>
+                        <input type="text" id="simpleinput" class="form-control" asp-for="FullName" readonly>
+					</div>
+
+					<div class="mb-3 col-md-6">
+                        <label asp-for="Birthday" class="form-label">Ngày sinh:</label>
+						<input type="date" asp-for="Birthday" class="form-control" readonly>
+					</div>
+
+					<div class="mb-3 col-md-6">
+                        <label asp-for="Address" class="form-label">Địa chỉ:</label>
+                        <input type="text" id="simpleinput" class="form-control" asp-for="Address" readonly>
+					</div>
+					
+					<div class="mb-3 col-md-6">
+						<label asp-for="Email" class="form-label">Email :</label>
+						<input type="text" class="form-control" asp-for="Email" readonly>
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="Phone" class="form-label">Điện thoại :</label>
+						<input type="text" class="form-control" asp-for="Phone" readonly>
+					</div>
+
+					<div class="mb-3 col-md-6">
+						<label asp-for="CreateDate" class="form-label">Ngày tạo :</label>
+						<input type="text" class="form-control" asp-for="CreateDate" readonly>
+					</div>
+					<div class="mb-3 col-md-6">
+						<label asp-for="LastLogin" class="form-label">Đăng nhập lần cuối :</label>
+						<input type="text" class="form-control" asp-for="LastLogin" readonly>
+					</div>
+
+                    <div class="mb-3 col-md-6">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input" asp-for="Active">
+                            <label class="form-check-label" asp-for="Active">Trạng thái</label>
+                        </div>
+
+                    </div>
+
+					<div class="form-group">
+						<input type="submit" value="Lưu" class="btn btn-primary" />
+						<a class="btn btn-dark" asp-action="Index">Quay lại</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

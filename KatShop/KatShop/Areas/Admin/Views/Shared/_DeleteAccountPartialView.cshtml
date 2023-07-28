@@ -1,0 +1,28 @@
+﻿@model KatShop.Models.Account
+
+@{
+
+}
+<!-- Modal delete product-->
+<div class="modal fade" id="deleteAccount-@Model.AccountId" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form asp-controller="Account" asp-action="Delete" asp-route-id="@Model.AccountId">
+                <div class="modal-header modal-colored-header bg-danger">
+                    <h5 class="modal-title" id="deleteCategorytLabel">Xóa tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="AccountId" />
+                    <h4>Bạn có chắc chắn xóa tài khoản : @Model.FullName</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <input type="submit" class="btn btn-danger" value="Xóa" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

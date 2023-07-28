@@ -1,0 +1,200 @@
+﻿
+@model KatShop.Models.Post
+@{
+	ViewData["Title"] = Model.Title;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	string url = $"/tin-tuc/{Model.Alias}-{Model.PostId}.html";
+	List<Post> Baivietlienquan = ViewBag.Baivietlienquan;
+}
+
+<div class="container single_product_container">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- Breadcrumbs -->
+			<div class="breadcrumbs d-flex flex-row align-items-center">
+				<ul>
+					<li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+					<li><a asp-controller="Blog" asp-action="Index"><i class="fa fa-angle-right" aria-hidden="true"></i>Bài viết</a></li>
+					<li class="active"><a href="~/assets/#"><i class="fa fa-angle-right" aria-hidden="true"></i>@ViewData["Title"]</a></li>
+				</ul>
+			</div>
+			
+		</div>
+		
+	</div>
+	<div class="container pb50">
+		 <div class="row">
+        <div class="col-md-12 mb40">
+            <article> 
+                <div class="post-content ">
+                    <div class="title mb-5">
+
+                    
+                        <h3 class="d-flex justify-content-center">@ViewData["Title"]</h3>
+                        <ul class="post-meta list-inline d-flex justify-content-center">
+                        <li class="list-inline-item">
+                            <i class="fa fa-user-circle-o"></i> @Model.Author -
+                        </li>
+                        <li class="list-inline-item">
+                            <i class="fa fa-calendar-o"></i> @Model.CreateDate.Value.ToShortDateString()
+                        </li>
+                      
+                    </ul>
+                        </div>
+                    <p>@Html.Raw(Model.Contents)</p>
+                    <ul class="list-inline share-buttons">
+                        <li class="list-inline-item">Share Post:</li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-icon-sm si-dark si-colored-facebook si-gray-round">
+                                <i class="fa fa-facebook"></i>
+                             
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-icon-sm si-dark si-colored-twitter si-gray-round">
+                                <i class="fa fa-twitter"></i>
+                              
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="social-icon-sm si-dark si-colored-linkedin si-gray-round">
+                                <i class="fa fa-linkedin"></i>
+                              
+                            </a>
+                        </li>
+                    </ul>
+
+
+			</div>
+                      
+@*
+                    <hr class="mb40">
+                    <h4 class="mb40 text-uppercase font500">Bình luận: </h4>
+                    <form role="form">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" placeholder="john@doe.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Comment</label>
+                            <textarea class="form-control" rows="5" placeholder="Comment"></textarea>
+                        </div>
+                        <div class="clearfix float-right">
+                            <button type="button" class="btn btn-primary btn-lg">Submit</button>
+                        </div>
+                    </form>*@
+                </div>
+            </article>
+            <!-- post article-->
+
+        </div>
+        <div class="col-md-12 mb-40">
+            <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0&appId=610644557764515&autoLogAppEvents=1" nonce="rxErOXyy"></script>
+                <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="100%" data-numposts="5"></div>
+
+
+
+
+            <hr class="mb40">
+            <h4 class="mb40 text-uppercase font500">Bài viết liên quan</h4>
+
+
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                @if (Baivietlienquan != null && Baivietlienquan.Count() > 0)
+                {
+                    foreach (var item in Baivietlienquan)
+                    {
+                        string _url = $"/tin-tuc/{item.Alias}-{item.PostId}.html";
+                        <div class="col">
+                            <div class="card h-100">
+                                <a href="@_url">
+                                    <img height="300" width="300" class="card-img-top" src="~/images/news/@item.Thumb" alt="@item.Title">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="@_url">@item.Title</a></h5>
+                                    <span class="text-dark"><i class="fa fa-calendar-o me-2"></i> @item.CreateDate.Value.ToShortDateString()</span>
+
+                                    @if (item.Scontents.Length > 110)
+                                    {
+                                        <p class="card-text">
+                                            @item.Scontents.Substring(0,110)...
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p>
+                                            @item.Scontents
+                                        </p>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            
+            </div>
+
+
+
+
+       @* <div class="col-md-3 mb40">
+            <div class="mb40">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search..." aria-describedby="basic-addon2">
+                        <button class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <!--/col-->
+            <div class="mb40">
+                <h4 class="sidebar-title">Categories</h4>
+                <ul class="list-unstyled categories">
+                    <li><a href="#">Rent</a></li>
+                    <li><a href="#">Sale</a></li>
+                    <li class="active"><a href="#">Apartment</a>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Office</a></li>
+                            <li><a href="#">Godown</a></li>
+                            <li><a href="#">Gerage</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Top Rating</a></li>
+                    <li><a href="#">Trending</a></li>
+                    <li><a href="#">Newest Properties</a></li>
+                </ul>
+            </div>
+            <!--/col-->
+            <div>
+                <h4 class="sidebar-title">Latest News</h4>
+                <ul class="list-unstyled">
+                    <li class="media">
+                        <img class="d-flex mr-3 img-fluid" width="64" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1"><a href="#">Lorem ipsum dolor sit amet</a></h5> April 05, 2017
+                        </div>
+                    </li>
+                    <li class="media my-4">
+                        <img class="d-flex mr-3 img-fluid" width="64" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1"><a href="#">Lorem ipsum dolor sit amet</a></h5> Jan 05, 2017
+                        </div>
+                    </li>
+                    <li class="media">
+                        <img class="d-flex mr-3 img-fluid" width="64" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <h5 class="mt-0 mb-1"><a href="#">Lorem ipsum dolor sit amet</a></h5> March 15, 2017
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>*@
+    </div>
+	</div>
+</div>
